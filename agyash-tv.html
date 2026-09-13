@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AGYASH TV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-primary: #0a0a14;
+    --bg-secondary: #0f0f1e;
+    --bg-card: #13132a;
+    --bg-card-hover: #1a1a35;
+    --accent: #7c3aed;
+    --accent-bright: #9d5ff0;
+    --accent-glow: rgba(124, 58, 237, 0.35);
+    --accent-2: #06b6d4;
+    --accent-2-dim: rgba(6, 182, 212, 0.15);
+    --text-primary: #f0eeff;
+    --text-secondary: #9b8fc4;
+    --text-muted: #5a527a;
+    --border: rgba(124, 58, 237, 0.18);
+    --border-subtle: rgba(255,255,255,0.06);
+    --badge-live: #ef4444;
+    --badge-new: #10b981;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg-primary); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; height: 64px;
+    background: rgba(10, 10, 20, 0.88);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .nav-logo {
+    font-size: 1.35rem; font-weight: 900; letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #c084fc 0%, var(--accent-2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+  }
+  .nav-logo span { font-weight: 300; }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .nav-links a {
+    color: var(--text-secondary); text-decoration: none;
+    font-size: 0.875rem; font-weight: 500; padding: 6px 14px;
+    border-radius: var(--radius-sm); transition: color 0.2s, background 0.2s;
+  }
+  .nav-links a:hover { color: var(--text-primary); background: var(--border-subtle); }
+
+  .nav-actions { display: flex; align-items: center; gap: 10px; }
+
+  .btn-signin {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem; font-weight: 600; cursor: pointer;
+    padding: 8px 20px; border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: transparent; color: var(--text-primary);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .btn-signin:hover { background: var(--border-subtle); border-color: var(--accent); }
+
+  .btn-primary {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem; font-weight: 700; cursor: pointer;
+    padding: 8px 22px; border-radius: var(--radius-sm);
+    border: none;
+    background: linear-gradient(135deg, var(--accent) 0%, #a855f7 100%);
+    color: #fff;
+    box-shadow: 0 0 18px var(--accent-glow);
+    transition: opacity 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.88; box-shadow: 0 0 30px var(--accent-glow); }
+
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--text-primary); border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 130px 24px 60px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -120px; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 700px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-2-dim); border: 1px solid rgba(6,182,212,0.3);
+    padding: 5px 14px; border-radius: 100px;
+    font-size: 0.75rem; font-weight: 600; color: var(--accent-2);
+    margin-bottom: 22px; letter-spacing: 0.04em;
+  }
+  .hero-eyebrow .dot { width: 6px; height: 6px; background: var(--accent-2); border-radius: 50%; }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    font-weight: 900; line-height: 1.05; letter-spacing: -1.5px;
+    margin-bottom: 20px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, #c084fc 0%, var(--accent-2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    max-width: 520px; margin: 0 auto 34px;
+    font-size: 1.05rem; color: var(--text-secondary);
+    line-height: 1.65; font-weight: 400;
+  }
+  .hero-cta { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .btn-hero-primary {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    padding: 14px 34px; border-radius: var(--radius-md); border: none;
+    background: linear-gradient(135deg, var(--accent) 0%, #a855f7 100%);
+    color: #fff; box-shadow: 0 4px 24px var(--accent-glow);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-hero-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-hero-outline {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem; font-weight: 600; cursor: pointer;
+    padding: 14px 34px; border-radius: var(--radius-md);
+    border: 1px solid var(--border); background: transparent; color: var(--text-primary);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .btn-hero-outline:hover { background: var(--border-subtle); border-color: var(--accent); }
+
+  /* ─── SECTION HEADER ─── */
+  .section { padding: 60px 24px; max-width: 1340px; margin: 0 auto; }
+  .section-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 28px; gap: 12px;
+  }
+  .section-title {
+    font-size: 1.35rem; font-weight: 800; letter-spacing: -0.5px;
+  }
+  .section-title .pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--badge-live); padding: 2px 8px; border-radius: 100px;
+    font-size: 0.62rem; font-weight: 700; color: #fff; margin-left: 8px;
+    vertical-align: middle; letter-spacing: 0.06em;
+  }
+  .section-more {
+    font-size: 0.8rem; font-weight: 600; color: var(--accent-bright);
+    text-decoration: none; white-space: nowrap;
+  }
+  .section-more:hover { text-decoration: underline; }
+
+  /* ─── TICKER ─── */
+  .ticker-wrap {
+    background: var(--bg-card);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 12px 0; overflow: hidden; position: relative;
+  }
+  .ticker-track {
+    display: flex; gap: 0;
+    animation: tickerScroll 40s linear infinite;
+    width: max-content;
+  }
+  .ticker-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 0 28px; white-space: nowrap;
+    font-size: 0.8rem; color: var(--text-secondary); font-weight: 500;
+  }
+  .ticker-item .badge {
+    background: var(--accent); color: #fff;
+    padding: 2px 7px; border-radius: 4px; font-size: 0.65rem; font-weight: 700;
+  }
+  .ticker-item .green { color: #34d399; }
+  .ticker-item .red { color: #f87171; }
+  @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* ─── STATS STRIP ─── */
+  .stats-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--border-subtle);
+    border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);
+    overflow: hidden; margin: 0 24px;
+  }
+  .stat-cell {
+    background: var(--bg-card); padding: 24px;
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 1.9rem; font-weight: 900; letter-spacing: -1px;
+    background: linear-gradient(135deg, #c084fc, var(--accent-2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    display: block;
+  }
+  .stat-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+
+  /* ─── TRENDING / CARDS ─── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 14px;
+  }
+  .media-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    overflow: hidden; cursor: pointer;
+    border: 1px solid var(--border-subtle);
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    position: relative;
+  }
+  .media-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px var(--accent);
+    border-color: var(--accent);
+  }
+  .media-card-img {
+    width: 100%; aspect-ratio: 2/3; object-fit: cover;
+    background: linear-gradient(135deg, #1a1a35 0%, #0f0f1e 100%);
+    display: block;
+  }
+  .media-card-img-placeholder {
+    width: 100%; aspect-ratio: 2/3;
+    background: linear-gradient(135deg, #1a1a35 0%, #0f0f1e 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem;
+  }
+  .media-card-body { padding: 12px; }
+  .media-card-title {
+    font-size: 0.85rem; font-weight: 700; line-height: 1.3;
+    margin-bottom: 5px; color: var(--text-primary);
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .media-card-meta {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.72rem; color: var(--text-muted); font-weight: 500;
+  }
+  .media-card-meta .dot { width: 3px; height: 3px; background: var(--text-muted); border-radius: 50%; }
+  .media-card-rank {
+    position: absolute; top: 10px; left: 10px;
+    background: var(--accent); color: #fff;
+    font-size: 0.7rem; font-weight: 800;
+    padding: 3px 8px; border-radius: 6px;
+  }
+  .media-card-type {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+    color: var(--accent-2); font-size: 0.65rem; font-weight: 700;
+    padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(6,182,212,0.3);
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .rating {
+    display: inline-flex; align-items: center; gap: 3px;
+    color: #fbbf24; font-weight: 600;
+  }
+
+  /* ─── SKELETON ─── */
+  .skeleton {
+    background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-hover) 50%, var(--bg-card) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: var(--radius-md);
+  }
+  .skeleton-card { aspect-ratio: 2/3; }
+  @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+  /* ─── FEATURES ─── */
+  .features-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .feature-card {
+    background: var(--bg-card); border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md); padding: 26px 22px;
+    transition: border-color 0.25s, background 0.25s;
+  }
+  .feature-card:hover { border-color: var(--accent); background: var(--bg-card-hover); }
+  .feature-icon {
+    width: 44px; height: 44px; border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, var(--accent) 0%, #a855f7 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.25rem; margin-bottom: 16px;
+    box-shadow: 0 4px 16px var(--accent-glow);
+  }
+  .feature-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+  .feature-desc { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55; }
+
+  /* ─── PLANS ─── */
+  .plans-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .plan-card {
+    background: var(--bg-card); border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg); padding: 30px 26px;
+    position: relative; transition: border-color 0.25s;
+  }
+  .plan-card.popular {
+    border-color: var(--accent);
+    background: linear-gradient(160deg, #13132a 0%, #1e1040 100%);
+  }
+  .plan-badge {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--accent), #a855f7);
+    color: #fff; font-size: 0.7rem; font-weight: 700;
+    padding: 4px 16px; border-radius: 100px; white-space: nowrap;
+  }
+  .plan-name { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px; }
+  .plan-price { font-size: 2.4rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 4px; }
+  .plan-price sup { font-size: 1.1rem; font-weight: 700; vertical-align: top; margin-top: 6px; }
+  .plan-period { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 22px; }
+  .plan-features { list-style: none; margin-bottom: 26px; display: flex; flex-direction: column; gap: 10px; }
+  .plan-features li {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.84rem; color: var(--text-secondary);
+  }
+  .plan-features li::before {
+    content: '✓'; color: var(--accent-2); font-weight: 700; flex-shrink: 0;
+  }
+  .btn-plan {
+    font-family: 'Inter', sans-serif;
+    width: 100%; font-size: 0.9rem; font-weight: 700; cursor: pointer;
+    padding: 12px; border-radius: var(--radius-sm);
+    border: 1px solid var(--border); background: transparent; color: var(--text-primary);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .btn-plan:hover { background: var(--border-subtle); border-color: var(--accent); }
+  .plan-card.popular .btn-plan {
+    border: none; background: linear-gradient(135deg, var(--accent), #a855f7);
+    box-shadow: 0 4px 20px var(--accent-glow);
+  }
+  .plan-card.popular .btn-plan:hover { opacity: 0.88; }
+
+  /* ─── MODAL ─── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(5, 5, 16, 0.85); backdrop-filter: blur(10px);
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-xl); max-width: 520px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px var(--border);
+    animation: modalIn 0.3s cubic-bezier(.22,1,.36,1);
+  }
+  @keyframes modalIn { from { opacity:0; transform: scale(0.94) translateY(12px); } to { opacity:1; transform: scale(1) translateY(0); } }
+  .modal-poster-wrap { position: relative; }
+  .modal-poster {
+    width: 100%; height: 280px; object-fit: cover;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    background: linear-gradient(135deg, #1a1a35, #0f0f1e);
+  }
+  .modal-poster-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 50%;
+    background: linear-gradient(to top, var(--bg-card), transparent);
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+    border: 1px solid var(--border-subtle); color: var(--text-primary);
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 1rem; font-weight: 700;
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: rgba(124,58,237,0.4); }
+  .modal-body { padding: 22px 26px 30px; }
+  .modal-type-badge {
+    display: inline-block; font-size: 0.68rem; font-weight: 700;
+    color: var(--accent-2); background: var(--accent-2-dim);
+    border: 1px solid rgba(6,182,212,0.25);
+    padding: 3px 10px; border-radius: 6px; margin-bottom: 10px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .modal-title { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 10px; }
+  .modal-meta {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 16px;
+  }
+  .modal-overview {
+    font-size: 0.875rem; color: var(--text-secondary);
+    line-height: 1.7; margin-bottom: 24px;
+  }
+  .modal-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-get-started {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem; font-weight: 700; cursor: pointer;
+    padding: 12px 28px; border-radius: var(--radius-sm); border: none;
+    background: linear-gradient(135deg, var(--accent), #a855f7);
+    color: #fff; box-shadow: 0 4px 20px var(--accent-glow);
+    transition: opacity 0.2s;
+    flex: 1;
+  }
+  .btn-get-started:hover { opacity: 0.88; }
+  .btn-modal-sign {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem; font-weight: 600; cursor: pointer;
+    padding: 12px 28px; border-radius: var(--radius-sm);
+    border: 1px solid var(--border); background: transparent; color: var(--text-primary);
+    transition: background 0.2s;
+  }
+  .btn-modal-sign:hover { background: var(--border-subtle); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border-subtle);
+    padding: 40px 24px;
+    text-align: center;
+  }
+  .footer-logo {
+    font-size: 1.2rem; font-weight: 900;
+    background: linear-gradient(135deg, #c084fc, var(--accent-2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 12px;
+  }
+  .footer-links {
+    display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .footer-links a { font-size: 0.8rem; color: var(--text-muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--text-secondary); }
+  .footer-copy { font-size: 0.75rem; color: var(--text-muted); }
+
+  /* ─── LOADING SPINNER ─── */
+  .spinner {
+    width: 36px; height: 36px; border: 3px solid var(--border-subtle);
+    border-top-color: var(--accent); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: 0 auto;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-state { text-align: center; padding: 50px 0; }
+  .loading-state p { font-size: 0.82rem; color: var(--text-muted); margin-top: 14px; }
+
+  /* ─── ERROR ─── */
+  .api-key-notice {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-md); padding: 20px 24px; text-align: center;
+    font-size: 0.85rem; color: var(--text-secondary);
+  }
+  .api-key-notice strong { color: var(--accent-bright); }
+
+  /* ─── MOBILE NAV ─── */
+  .mobile-menu {
+    display: none; position: fixed; inset: 0; z-index: 99;
+    background: rgba(10,10,20,0.97); backdrop-filter: blur(16px);
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px;
+  }
+  .mobile-menu.active { display: flex; }
+  .mobile-menu a {
+    color: var(--text-primary); text-decoration: none;
+    font-size: 1.4rem; font-weight: 700; padding: 10px 0;
+  }
+  .mobile-menu a:hover { color: var(--accent-bright); }
+  .mobile-menu-actions { display: flex; gap: 12px; margin-top: 24px; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-actions .btn-signin,
+    .nav-actions .btn-primary { display: none; }
+    .hamburger { display: flex; }
+
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+
+    .cards-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    .section { padding: 40px 16px; }
+    nav { padding: 0 16px; }
+    .stats-strip { margin: 0 16px; }
+
+    .modal-body { padding: 16px 18px 22px; }
+    .modal-title { font-size: 1.15rem; }
+    .modal-poster { height: 220px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero { padding: 110px 16px 44px; }
+    .hero h1 { font-size: 2rem; }
+    .cards-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+    .features-grid { grid-template-columns: 1fr; }
+    .plans-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ─── MARQUEE SECTION ─── */
+  .marquee-wrap { overflow: hidden; padding: 0; }
+  .marquee-inner {
+    display: flex; gap: 14px;
+    animation: marquee 30s linear infinite;
+    width: max-content;
+  }
+  .marquee-inner:hover { animation-play-state: paused; }
+  .marquee-tag {
+    background: var(--bg-card); border: 1px solid var(--border-subtle);
+    border-radius: 100px; padding: 7px 16px;
+    font-size: 0.78rem; font-weight: 600; color: var(--text-secondary);
+    white-space: nowrap; flex-shrink: 0;
+  }
+  @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* ─── CONTACT SECTION ─── */
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 700px) { .contact-grid { grid-template-columns: 1fr; } }
+  .contact-info { display: flex; flex-direction: column; gap: 16px; }
+  .contact-info-title {
+    font-size: 1.6rem; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px;
+  }
+  .contact-info-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 10px; }
+  .contact-item {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--bg-card); border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md); padding: 16px 18px;
+    text-decoration: none; transition: border-color 0.2s, background 0.2s;
+  }
+  .contact-item:hover { border-color: var(--accent); background: var(--bg-card-hover); }
+  .contact-item-icon {
+    width: 42px; height: 42px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 1.2rem;
+  }
+  .contact-item-icon.wa { background: #25D366; box-shadow: 0 4px 14px rgba(37,211,102,0.35); }
+  .contact-item-icon.email { background: linear-gradient(135deg, var(--accent), #a855f7); box-shadow: 0 4px 14px var(--accent-glow); }
+  .contact-item-icon.phone { background: linear-gradient(135deg, var(--accent-2), #0284c7); box-shadow: 0 4px 14px rgba(6,182,212,0.3); }
+  .contact-item-text-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .contact-item-text-val { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); }
+  .contact-form-wrap {
+    background: var(--bg-card); border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg); padding: 28px 26px;
+  }
+  .contact-form-title { font-size: 1rem; font-weight: 800; margin-bottom: 18px; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%; background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);
+    padding: 11px 14px; color: var(--text-primary);
+    font-family: 'Inter', sans-serif; font-size: 0.88rem;
+    outline: none; transition: border-color 0.2s;
+    -webkit-appearance: none; appearance: none;
+    user-select: text; -webkit-user-select: text;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .form-group select option { background: var(--bg-card); }
+  .btn-contact-send {
+    font-family: 'Inter', sans-serif; width: 100%;
+    font-size: 0.9rem; font-weight: 700; cursor: pointer;
+    padding: 13px; border-radius: var(--radius-sm); border: none;
+    background: linear-gradient(135deg, var(--accent), #a855f7);
+    color: #fff; box-shadow: 0 4px 20px var(--accent-glow);
+    transition: opacity 0.2s, transform 0.15s;
+    margin-top: 4px;
+  }
+  .btn-contact-send:hover { opacity: 0.88; transform: translateY(-1px); }
+  .form-success {
+    display: none; background: rgba(16,185,129,0.12);
+    border: 1px solid rgba(16,185,129,0.35); border-radius: var(--radius-sm);
+    padding: 12px 16px; text-align: center;
+    font-size: 0.85rem; color: #34d399; font-weight: 600; margin-top: 12px;
+  }
+
+  /* ─── WHATSAPP FAB ─── */
+  .wa-fab {
+    position: fixed; bottom: 90px; right: 22px; z-index: 150;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #25D366;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; text-decoration: none;
+    transition: transform 0.25s, box-shadow 0.25s;
+    animation: waPulse 2.5s ease-in-out infinite;
+  }
+  .wa-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 28px rgba(37,211,102,0.65);
+    animation: none;
+  }
+  .wa-fab svg { width: 30px; height: 30px; fill: #fff; }
+  .wa-fab-tooltip {
+    position: absolute; right: 66px; top: 50%; transform: translateY(-50%);
+    background: #111; color: #fff; font-size: 0.75rem; font-weight: 600;
+    padding: 6px 12px; border-radius: var(--radius-sm); white-space: nowrap;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .wa-fab:hover .wa-fab-tooltip { opacity: 1; }
+  @keyframes waPulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.5); }
+    50% { box-shadow: 0 4px 32px rgba(37,211,102,0.85), 0 0 0 10px rgba(37,211,102,0.1); }
+  }
+
+  /* ─── CHATBOT ─── */
+  .chat-fab {
+    position: fixed; bottom: 22px; right: 22px; z-index: 150;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #a855f7);
+    box-shadow: 0 4px 20px var(--accent-glow);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; border: none;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .chat-fab:hover { transform: scale(1.1); box-shadow: 0 6px 28px var(--accent-glow); }
+  .chat-fab svg { width: 26px; height: 26px; fill: #fff; transition: transform 0.3s; }
+  .chat-fab.open svg { transform: rotate(45deg); }
+
+  .chatbot-window {
+    position: fixed; bottom: 90px; right: 22px; z-index: 149;
+    width: 340px; max-height: 500px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    display: flex; flex-direction: column;
+    transform: scale(0.92) translateY(16px); opacity: 0; pointer-events: none;
+    transition: transform 0.3s cubic-bezier(.22,1,.36,1), opacity 0.25s;
+    overflow: hidden;
+  }
+  .chatbot-window.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+
+  .chat-header {
+    background: linear-gradient(135deg, var(--accent) 0%, #a855f7 100%);
+    padding: 16px 18px; display: flex; align-items: center; gap: 12px;
+    flex-shrink: 0;
+  }
+  .chat-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .chat-header-info { flex: 1; }
+  .chat-header-name { font-size: 0.9rem; font-weight: 700; color: #fff; }
+  .chat-header-status { font-size: 0.72rem; color: rgba(255,255,255,0.75); display: flex; align-items: center; gap: 5px; }
+  .chat-header-status::before { content: ''; width: 7px; height: 7px; background: #4ade80; border-radius: 50%; display: inline-block; }
+  .chat-header-close {
+    background: rgba(255,255,255,0.15); border: none; color: #fff;
+    width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; font-weight: 700; transition: background 0.2s;
+  }
+  .chat-header-close:hover { background: rgba(255,255,255,0.3); }
+
+  .chat-messages {
+    flex: 1; overflow-y: auto; padding: 16px;
+    display: flex; flex-direction: column; gap: 10px;
+    min-height: 240px; max-height: 300px;
+  }
+  .chat-messages::-webkit-scrollbar { width: 3px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  .chat-msg {
+    max-width: 82%; padding: 10px 14px;
+    border-radius: 16px; font-size: 0.83rem; line-height: 1.5;
+    animation: msgIn 0.25s cubic-bezier(.22,1,.36,1);
+  }
+  @keyframes msgIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform:none; } }
+  .chat-msg.bot {
+    background: var(--bg-secondary); color: var(--text-primary);
+    align-self: flex-start; border-bottom-left-radius: 4px;
+    border: 1px solid var(--border-subtle);
+  }
+  .chat-msg.user {
+    background: linear-gradient(135deg, var(--accent), #a855f7);
+    color: #fff; align-self: flex-end; border-bottom-right-radius: 4px;
+  }
+  .chat-quick-btns {
+    display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 10px;
+  }
+  .chat-quick-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem; font-weight: 600; cursor: pointer;
+    padding: 6px 12px; border-radius: 100px;
+    border: 1px solid var(--border); background: transparent; color: var(--text-secondary);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  .chat-quick-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .chat-input-row {
+    display: flex; gap: 8px; padding: 12px 14px;
+    border-top: 1px solid var(--border-subtle); flex-shrink: 0;
+  }
+  .chat-input {
+    flex: 1; background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle); border-radius: 100px;
+    padding: 9px 16px; color: var(--text-primary);
+    font-family: 'Inter', sans-serif; font-size: 0.83rem;
+    outline: none; transition: border-color 0.2s;
+    user-select: text; -webkit-user-select: text;
+  }
+  .chat-input:focus { border-color: var(--accent); }
+  .chat-input::placeholder { color: var(--text-muted); }
+  .chat-send-btn {
+    width: 36px; height: 36px; border-radius: 50%; border: none; cursor: pointer;
+    background: linear-gradient(135deg, var(--accent), #a855f7);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: opacity 0.2s;
+  }
+  .chat-send-btn:hover { opacity: 0.85; }
+  .chat-send-btn svg { width: 16px; height: 16px; fill: #fff; }
+
+  .typing-indicator {
+    display: none; align-items: center; gap: 4px; padding: 10px 14px;
+    background: var(--bg-secondary); border: 1px solid var(--border-subtle);
+    border-radius: 16px; border-bottom-left-radius: 4px;
+    align-self: flex-start; max-width: 70px;
+  }
+  .typing-indicator.show { display: flex; }
+  .typing-dot {
+    width: 6px; height: 6px; background: var(--text-muted); border-radius: 50%;
+    animation: typingDot 1.2s ease-in-out infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typingDot { 0%,60%,100% { opacity:0.3; transform: scale(0.85); } 30% { opacity:1; transform: scale(1); } }
+
+  @media (max-width: 400px) {
+    .chatbot-window { width: calc(100vw - 28px); right: 14px; }
+    .wa-fab { right: 14px; }
+    .chat-fab { right: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#trending" onclick="closeMobileMenu()">Trending</a>
+  <a href="#features" onclick="closeMobileMenu()">Features</a>
+  <a href="#plans" onclick="closeMobileMenu()">Plans</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+  <div class="mobile-menu-actions">
+    <button class="btn-signin" onclick="handleSignIn(); closeMobileMenu();">Sign In</button>
+    <button class="btn-primary" onclick="scrollToPlans(); closeMobileMenu();">Get Started</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">AGYASH<span> TV</span></a>
+  <div class="nav-links">
+    <a href="#trending">Trending</a>
+    <a href="#features">Features</a>
+    <a href="#plans">Plans</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-signin" onclick="handleSignIn()">Sign In</button>
+    <button class="btn-primary" onclick="scrollToPlans()">Get Started</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow"><span class="dot"></span> Now Streaming in India</div>
+  <h1>The World's Entertainment,<br><em>All in One Place</em></h1>
+  <p>Stream top movies, series & live TV with no ads. Premium content curated for you. Try 1 day for just ₹22, or go monthly at ₹149.</p>
+  <div class="hero-cta">
+    <button class="btn-hero-primary" onclick="scrollToPlans()">Start Your Free Trial</button>
+    <button class="btn-hero-outline" onclick="document.getElementById('trending').scrollIntoView({behavior:'smooth'})">Browse Trending</button>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track" id="tickerTrack">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- STATS STRIP -->
+<div class="stats-strip" style="max-width:1340px;margin:0 auto;margin-top:40px; margin-left:auto; margin-right:auto; display:grid;">
+  <div class="stat-cell"><span class="stat-num">10K+</span><span class="stat-label">Movies & Shows</span></div>
+  <div class="stat-cell"><span class="stat-num">4K</span><span class="stat-label">Ultra HD Quality</span></div>
+  <div class="stat-cell"><span class="stat-num">50+</span><span class="stat-label">Live Channels</span></div>
+  <div class="stat-cell"><span class="stat-num">₹22</span><span class="stat-label">Trial Price</span></div>
+</div>
+
+<!-- TRENDING -->
+<section class="section" id="trending">
+  <div class="section-header">
+    <div class="section-title">🔥 Trending Now <span class="pill">LIVE</span></div>
+    <a href="#" class="section-more">View all →</a>
+  </div>
+  <div id="trendingMovies">
+    <div class="cards-grid" id="moviesGrid">
+      <!-- skeletons -->
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="section-header">
+    <div class="section-title">📺 Top Shows</div>
+    <a href="#" class="section-more">View all →</a>
+  </div>
+  <div class="cards-grid" id="showsGrid"></div>
+</section>
+
+<!-- GENRE MARQUEE -->
+<div class="section" style="padding-top:0;padding-bottom:40px;">
+  <div class="marquee-wrap">
+    <div class="marquee-inner" id="marqueeInner"></div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-header">
+    <div class="section-title">Why AGYASH TV?</div>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🎬</div>
+      <div class="feature-title">10,000+ Titles</div>
+      <div class="feature-desc">Hollywood blockbusters, Bollywood hits, South cinema & exclusive originals — one library, zero gaps.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">Zero Buffering</div>
+      <div class="feature-desc">Adaptive CDN ensures silky-smooth playback even on 4G connections across India.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📱</div>
+      <div class="feature-title">Watch Anywhere</div>
+      <div class="feature-desc">TV, phone, tablet, browser — one account, up to 4 screens simultaneously.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <div class="feature-title">Family Safe</div>
+      <div class="feature-desc">Per-profile content controls, PIN-protected adult content, and kids-mode built in.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📥</div>
+      <div class="feature-title">Offline Download</div>
+      <div class="feature-desc">Save any show to watch offline. Perfect for flights, trains, and network-dead zones.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌐</div>
+      <div class="feature-title">Multi-language</div>
+      <div class="feature-desc">Content in Hindi, English, Tamil, Telugu, Malayalam, Kannada & 12 more languages.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section class="section" id="plans">
+  <div class="section-header">
+    <div class="section-title">Simple Pricing</div>
+  </div>
+  <div class="plans-grid">
+
+    <!-- 1 DAY FREE TRIAL -->
+    <div class="plan-card">
+      <div class="plan-name">Free Trial</div>
+      <div class="plan-price"><sup>₹</sup>22</div>
+      <div class="plan-period">1 day · Try everything</div>
+      <ul class="plan-features">
+        <li>Full library access</li>
+        <li>HD Streaming</li>
+        <li>All devices</li>
+        <li>Cancel anytime</li>
+      </ul>
+      <button class="btn-plan" onclick="handlePlanPurchase('Trial', 22)">Try for ₹22</button>
+    </div>
+
+    <!-- 1 MONTH -->
+    <div class="plan-card popular">
+      <div class="plan-badge">Most Popular</div>
+      <div class="plan-name">Monthly</div>
+      <div class="plan-price"><sup>₹</sup>149</div>
+      <div class="plan-period">per month</div>
+      <ul class="plan-features">
+        <li>Full 10,000+ library</li>
+        <li>HD & Full HD streaming</li>
+        <li>All devices + TV</li>
+        <li>Cancel anytime</li>
+        <li>Offline downloads</li>
+      </ul>
+      <button class="btn-plan" onclick="handlePlanPurchase('Monthly', 149)">Get Monthly</button>
+    </div>
+
+    <!-- 6 MONTHS -->
+    <div class="plan-card">
+      <div class="plan-name">6 Months</div>
+      <div class="plan-price"><sup>₹</sup>699</div>
+      <div class="plan-period">6 months · Save 22%</div>
+      <ul class="plan-features">
+        <li>Everything in Monthly</li>
+        <li>Priority support</li>
+        <li>Best value deal</li>
+        <li>Only ₹116/month</li>
+      </ul>
+      <button class="btn-plan" onclick="handlePlanPurchase('6-Month', 699)">Get 6 Months</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="section-header">
+    <div class="section-title">💬 Get In Touch</div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div>
+        <div class="contact-info-title">We're here to help</div>
+        <div class="contact-info-desc">Have a question about plans, billing, or content? Reach out anytime — our support team responds within minutes on WhatsApp.</div>
+      </div>
+      <a class="contact-item" href="https://wa.me/919999999999?text=Hi%20AGYASH%20TV%20Support!" target="_blank" rel="noopener">
+        <div class="contact-item-icon wa">
+          <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.570-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="contact-item-text-label">WhatsApp Support</div>
+          <div class="contact-item-text-val">+91 99999 99999</div>
+        </div>
+      </a>
+      <a class="contact-item" href="mailto:support@agyashtv.in">
+        <div class="contact-item-icon email">✉️</div>
+        <div>
+          <div class="contact-item-text-label">Email Us</div>
+          <div class="contact-item-text-val">support@agyashtv.in</div>
+        </div>
+      </a>
+      <a class="contact-item" href="tel:+919999999999">
+        <div class="contact-item-icon phone">📞</div>
+        <div>
+          <div class="contact-item-text-label">Call Us</div>
+          <div class="contact-item-text-val">+91 99999 99999</div>
+        </div>
+      </a>
+    </div>
+    <div class="contact-form-wrap">
+      <div class="contact-form-title">Send a Message</div>
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" id="cf-name" placeholder="e.g. Rahul Sharma">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="cf-email" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <select id="cf-subject">
+          <option value="">Choose a topic…</option>
+          <option>Plan / Pricing</option>
+          <option>Billing Issue</option>
+          <option>Content Request</option>
+          <option>Technical Problem</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea id="cf-message" placeholder="Tell us how we can help…"></textarea>
+      </div>
+      <button class="btn-contact-send" onclick="sendContactForm()">Send Message</button>
+      <div class="form-success" id="formSuccess">✓ Message sent! We'll reply within a few minutes.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">AGYASH TV</div>
+  <div class="footer-links">
+    <a href="#">About</a>
+    <a href="#">Terms</a>
+    <a href="#">Privacy</a>
+    <a href="#contact">Contact</a>
+    <a href="#">Help Centre</a>
+  </div>
+  <div class="footer-copy">© 2025 AGYASH TV. All rights reserved.</div>
+</footer>
+
+<!-- WHATSAPP FAB -->
+<a class="wa-fab" href="https://wa.me/919999999999?text=Hi%20AGYASH%20TV!%20I%20need%20help." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.570-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+  <span class="wa-fab-tooltip">Chat on WhatsApp</span>
+</a>
+
+<!-- CHATBOT -->
+<div class="chatbot-window" id="chatbotWindow">
+  <div class="chat-header">
+    <div class="chat-avatar">🤖</div>
+    <div class="chat-header-info">
+      <div class="chat-header-name">AGYASH Support</div>
+      <div class="chat-header-status">Online · Replies instantly</div>
+    </div>
+    <button class="chat-header-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot">👋 Hey! Welcome to <strong>AGYASH TV</strong>. How can I help you today?</div>
+  </div>
+  <div class="chat-quick-btns" id="quickBtns">
+    <button class="chat-quick-btn" onclick="quickReply('What plans do you offer?')">📋 Plans</button>
+    <button class="chat-quick-btn" onclick="quickReply('How do I sign in?')">🔐 Sign In</button>
+    <button class="chat-quick-btn" onclick="quickReply('Is there a free trial?')">🎁 Free Trial</button>
+    <button class="chat-quick-btn" onclick="quickReply('I need billing help')">💳 Billing</button>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chatInput" type="text" placeholder="Type a message…" onkeydown="if(event.key==='Enter') sendChat()">
+    <button class="chat-send-btn" onclick="sendChat()">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<button class="chat-fab" id="chatFab" onclick="toggleChat()" aria-label="Open Chat">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+</button>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalBox">
+    <div class="modal-poster-wrap">
+      <img class="modal-poster" id="modalPoster" src="" alt="">
+      <div class="modal-poster-overlay"></div>
+      <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-type-badge" id="modalType">MOVIE</div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-meta" id="modalMeta"></div>
+      <div class="modal-overview" id="modalOverview"></div>
+      <div class="modal-actions">
+        <button class="btn-get-started" onclick="handlePlanPurchase('Monthly', 149)">Get Started</button>
+        <button class="btn-modal-sign" onclick="handleSignIn()">Sign In</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────────────
+// REPLACE THIS WITH YOUR TMDB API KEY:
+const TMDB_API_KEY = 'YOUR_TMDB_API_KEY_HERE';
+const TMDB_BASE    = 'https://api.themoviedb.org/3';
+const TMDB_IMG     = 'https://image.tmdb.org/t/p/w500';
+const TMDB_IMG_BIG = 'https://image.tmdb.org/t/p/w780';
+
+// Your Vercel server URL:
+const SERVER_URL = 'http://filex.uk:8080';
+
+// ─── PREVENT COPY / RIGHT-CLICK ───────────────────────────────────
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('copy',        e => e.preventDefault());
+document.addEventListener('cut',         e => e.preventDefault());
+
+// ─── MOBILE MENU ──────────────────────────────────────────────────
+function toggleMobileMenu() {
+  document.getElementById('mobileMenu').classList.toggle('active');
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('active');
+}
+
+// ─── TICKER ───────────────────────────────────────────────────────
+const tickerItems = [
+  { label: 'TRENDING', text: 'Kalki 2898 AD', val: '⭐ 8.1', cls: 'green' },
+  { label: 'NEW', text: 'Stranger Things S5', val: '⭐ 9.2', cls: 'green' },
+  { label: 'HOT', text: 'The Bear S3', val: '⭐ 8.8', cls: 'green' },
+  { label: 'TOP', text: 'Dune: Part Two', val: '⭐ 8.5', cls: 'green' },
+  { label: 'LIVE', text: 'IPL 2025 Highlights', val: 'LIVE', cls: 'red' },
+  { label: 'NEW', text: 'Jawan Extended Cut', val: '⭐ 7.9', cls: 'green' },
+  { label: 'HOT', text: 'Shogun', val: '⭐ 9.0', cls: 'green' },
+  { label: 'TOP', text: 'Fighter', val: '⭐ 7.5', cls: 'green' },
+];
+function buildTicker() {
+  const doubled = [...tickerItems, ...tickerItems];
+  document.getElementById('tickerTrack').innerHTML = doubled.map(i => `
+    <div class="ticker-item">
+      <span class="badge">${i.label}</span>
+      ${i.text}
+      <span class="${i.cls}">${i.val}</span>
+    </div>
+  `).join('');
+}
+buildTicker();
+
+// ─── GENRE MARQUEE ────────────────────────────────────────────────
+const genres = ['Action','Comedy','Drama','Thriller','Horror','Sci-Fi','Romance','Animation','Crime','Fantasy','Documentary','Mystery','Adventure','Superhero','Bollywood','K-Drama','Hollywood','Kids & Family','Reality','Sport'];
+function buildMarquee() {
+  const doubled = [...genres, ...genres];
+  document.getElementById('marqueeInner').innerHTML = doubled.map(g =>
+    `<span class="marquee-tag">${g}</span>`
+  ).join('');
+}
+buildMarquee();
+
+// ─── SKELETONS ────────────────────────────────────────────────────
+function renderSkeletons(containerId, count = 10) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = Array(count).fill(0).map(() =>
+    `<div class="skeleton skeleton-card"></div>`
+  ).join('');
+}
+
+// ─── FETCH TMDB ───────────────────────────────────────────────────
+async function fetchTMDB(path) {
+  const sep = path.includes('?') ? '&' : '?';
+  const res = await fetch(`${TMDB_BASE}${path}${sep}api_key=${TMDB_API_KEY}&language=en-US`);
+  if (!res.ok) throw new Error('TMDB fetch failed');
+  return res.json();
+}
+
+function buildCard(item, type, rank) {
+  const img = item.poster_path
+    ? `<img class="media-card-img" src="${TMDB_IMG}${item.poster_path}" alt="${item.title || item.name}" loading="lazy">`
+    : `<div class="media-card-img-placeholder">🎬</div>`;
+  const title = item.title || item.name || 'Untitled';
+  const year = (item.release_date || item.first_air_date || '').slice(0, 4);
+  const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
+  return `
+    <div class="media-card" onclick="openModal(${JSON.stringify(item).replace(/"/g,'&quot;')}, '${type}')">
+      ${img}
+      <div class="media-card-rank">#${rank}</div>
+      <div class="media-card-type">${type === 'movie' ? 'FILM' : 'SERIES'}</div>
+      <div class="media-card-body">
+        <div class="media-card-title">${title}</div>
+        <div class="media-card-meta">
+          <span class="rating">★ ${rating}</span>
+          ${year ? `<span class="dot"></span><span>${year}</span>` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+async function loadTrending() {
+  renderSkeletons('moviesGrid', 10);
+  renderSkeletons('showsGrid', 10);
+
+  if (!TMDB_API_KEY || TMDB_API_KEY === 'YOUR_TMDB_API_KEY_HERE') {
+    document.getElementById('moviesGrid').innerHTML = `
+      <div class="api-key-notice" style="grid-column:1/-1">
+        <strong>Add your TMDB API key</strong> to see trending movies &amp; shows.<br>
+        Open the HTML file and replace <code>YOUR_TMDB_API_KEY_HERE</code> with your key.
+      </div>`;
+    document.getElementById('showsGrid').innerHTML = '';
+    return;
+  }
+
+  try {
+    const [moviesData, showsData] = await Promise.all([
+      fetchTMDB('/trending/movie/week?page=1'),
+      fetchTMDB('/trending/tv/week?page=1'),
+    ]);
+    const movies = moviesData.results.slice(0, 10);
+    const shows  = showsData.results.slice(0, 10);
+
+    document.getElementById('moviesGrid').innerHTML = movies.map((m, i) => buildCard(m, 'movie', i + 1)).join('');
+    document.getElementById('showsGrid').innerHTML  = shows.map((s, i) => buildCard(s, 'tv', i + 1)).join('');
+  } catch(e) {
+    document.getElementById('moviesGrid').innerHTML = `<div class="api-key-notice" style="grid-column:1/-1">Could not load content. Check your TMDB API key.</div>`;
+    document.getElementById('showsGrid').innerHTML = '';
+  }
+}
+loadTrending();
+
+// ─── MODAL ────────────────────────────────────────────────────────
+let activeItem = null;
+function openModal(item, type) {
+  activeItem = item;
+  const title = item.title || item.name || 'Untitled';
+  const year = (item.release_date || item.first_air_date || '').slice(0, 4);
+  const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
+  const backdrop = item.backdrop_path ? `${TMDB_IMG_BIG}${item.backdrop_path}` :
+                   (item.poster_path  ? `${TMDB_IMG}${item.poster_path}` : '');
+
+  document.getElementById('modalPoster').src  = backdrop;
+  document.getElementById('modalPoster').alt  = title;
+  document.getElementById('modalType').textContent = type === 'movie' ? 'MOVIE' : 'TV SERIES';
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalOverview').textContent = item.overview || 'No description available.';
+  document.getElementById('modalMeta').innerHTML = `
+    ${rating !== 'N/A' ? `<span class="rating">★ ${rating}</span> <span style="color:var(--border-subtle)">|</span>` : ''}
+    ${year ? `<span>${year}</span>` : ''}
+    ${item.vote_count ? `<span>${item.vote_count.toLocaleString()} votes</span>` : ''}
+  `;
+
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) {
+    closeModalBtn();
+  }
+}
+function closeModalBtn() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalBtn(); });
+
+// ─── AUTH / PLAN HANDLERS ─────────────────────────────────────────
+function handleSignIn() {
+  // Opens sign in at your Vercel server
+  window.open(`${SERVER_URL}/login`, '_blank');
+}
+
+function handlePlanPurchase(plan, price) {
+  // Opens plan purchase page at your Vercel server
+  window.open(`${SERVER_URL}/purchase?plan=${encodeURIComponent(plan)}&price=${price}`, '_blank');
+}
+
+function scrollToPlans() {
+  document.getElementById('plans').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ─── CONTACT FORM ────────────────────────────────────────────────
+function sendContactForm() {
+  const name    = document.getElementById('cf-name').value.trim();
+  const email   = document.getElementById('cf-email').value.trim();
+  const subject = document.getElementById('cf-subject').value;
+  const message = document.getElementById('cf-message').value.trim();
+  if (!name || !email || !message) {
+    alert('Please fill in your name, email, and message.');
+    return;
+  }
+  // Send to your server
+  fetch(`${SERVER_URL}/contact`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, subject, message })
+  }).catch(() => {}); // silent fail — show success anyway
+  document.getElementById('formSuccess').style.display = 'block';
+  document.getElementById('cf-name').value = '';
+  document.getElementById('cf-email').value = '';
+  document.getElementById('cf-subject').value = '';
+  document.getElementById('cf-message').value = '';
+}
+
+// ─── CHATBOT ─────────────────────────────────────────────────────
+let chatOpen = false;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chatbotWindow').classList.toggle('open', chatOpen);
+  document.getElementById('chatFab').classList.toggle('open', chatOpen);
+  if (chatOpen) setTimeout(() => document.getElementById('chatInput').focus(), 350);
+}
+
+const botResponses = {
+  'plan': '📋 We have 3 simple plans:\n• <strong>Free Trial</strong> – ₹22 (1 day, try everything!)\n• <strong>Monthly</strong> – ₹149/month (most popular)\n• <strong>6 Months</strong> – ₹699 (best value, only ₹116/mo)\n\nScroll to Plans to get started!',
+  'sign': '🔐 You can sign in at <strong>filex.uk:8080/login</strong>. Click the Sign In button at the top of the page!',
+  'trial': '🎁 Yes! Try AGYASH TV for just <strong>₹22 for 1 full day</strong> — access everything. No commitment needed. Click "Get Started" to begin!',
+  'billing': '💳 For billing issues, please WhatsApp us at <strong>+91 99999 99999</strong> or email support@agyashtv.in and we\'ll sort it out within minutes.',
+  'cancel': '✅ You can cancel anytime from your account settings. No lock-in periods, no hidden charges.',
+  'download': '📥 Offline downloads are available on the Premium & Annual plans via our iOS and Android apps.',
+  'device': '📱 You can watch on phones, tablets, laptops, smart TVs, and browsers. Premium allows 4 simultaneous screens.',
+  'content': '🎬 We carry 10,000+ titles including Hollywood, Bollywood, South cinema, K-Dramas, and AGYASH Originals.',
+  'default': '🤔 Thanks for your message! For faster help, WhatsApp us at <strong>+91 99999 99999</strong> or email support@agyashtv.in — we usually reply in minutes.'
+};
+
+function getBotReply(msg) {
+  const m = msg.toLowerCase();
+  if (m.includes('plan') || m.includes('price') || m.includes('cost') || m.includes('₹') || m.includes('rs')) return botResponses['plan'];
+  if (m.includes('sign') || m.includes('login') || m.includes('log in') || m.includes('account')) return botResponses['sign'];
+  if (m.includes('trial') || m.includes('free')) return botResponses['trial'];
+  if (m.includes('bill') || m.includes('payment') || m.includes('refund') || m.includes('charge')) return botResponses['billing'];
+  if (m.includes('cancel') || m.includes('stop') || m.includes('unsubscribe')) return botResponses['cancel'];
+  if (m.includes('download') || m.includes('offline')) return botResponses['download'];
+  if (m.includes('device') || m.includes('screen') || m.includes('tv') || m.includes('phone') || m.includes('mobile')) return botResponses['device'];
+  if (m.includes('movie') || m.includes('show') || m.includes('content') || m.includes('watch')) return botResponses['content'];
+  return botResponses['default'];
+}
+
+function appendMsg(text, role) {
+  const box = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  div.innerHTML = text.replace(/\n/g, '<br>');
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+function showTyping() {
+  const box = document.getElementById('chatMessages');
+  const t = document.createElement('div');
+  t.className = 'typing-indicator show'; t.id = 'typingIndicator';
+  t.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+  box.appendChild(t); box.scrollTop = box.scrollHeight;
+}
+function hideTyping() {
+  const t = document.getElementById('typingIndicator');
+  if (t) t.remove();
+}
+
+function quickReply(text) {
+  document.getElementById('quickBtns').style.display = 'none';
+  appendMsg(text, 'user');
+  showTyping();
+  setTimeout(() => {
+    hideTyping();
+    appendMsg(getBotReply(text), 'bot');
+  }, 900);
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  document.getElementById('quickBtns').style.display = 'none';
+  appendMsg(msg, 'user');
+  showTyping();
+  setTimeout(() => {
+    hideTyping();
+    appendMsg(getBotReply(msg), 'bot');
+  }, 1000 + Math.random() * 500);
+}
+</script>
+</body>
+</html>
