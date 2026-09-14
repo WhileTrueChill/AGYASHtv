@@ -14,7 +14,7 @@ jobs:
         run: |
           curl -fsSL 'https://raw.githubusercontent.com/WhileTrueChill/AGYASHtv/d358de0769fdaca7c0eae597a51673a65b533072/index.html' -o index.html
           mkdir -p assets
-          curl -fL 'https://share.google/6ZKlFEgOgOP1ZtKpr' -o assets/agyash-bg.jpg
+          curl -fL 'https://www.shortlist.com/news/netflix-is-making-big-changes-to-how-it-recommends-movies-and-shows-404210' -o assets/agyash-bg.jpg
           file assets/agyash-bg.jpg
           python3 - <<'PY'
           from pathlib import Path
