@@ -32,7 +32,7 @@ jobs:
             z-index: -2;
             background-image:
               linear-gradient(to bottom, rgba(10,10,20,.18) 0%, rgba(10,10,20,.40) 34%, rgba(10,10,20,.70) 68%, #0a0a14 100%),
-              url('https://image.tmdb.org/t/p/original/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg');
+              url('https://share.google/6ZKlFEgOgOP1ZtKpr');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
