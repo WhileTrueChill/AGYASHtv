@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Restore original root page and add background
         run: |
-          git checkout 66d4617cb5f21158b75d63361ec1550b62cc9f1b -- index.html
+          curl -fsSL 'https://raw.githubusercontent.com/WhileTrueChill/AGYASHtv/d358de0769fdaca7c0eae597a51673a65b533072/index.html' -o index.html
           python3 - <<'PY'
           from pathlib import Path
           import re
@@ -55,13 +55,8 @@ jobs:
           if n != 1: raise SystemExit('hero CSS not found')
           p.write_text(ns,encoding='utf-8')
           PY
-      - name: Commit fixed page
-        run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.html
           git commit -m 'Restore original page and add cinematic hero background'
-          git push
-          git rm .github/workflows/restore-hero.yml
-          git commit -m 'Remove temporary restore workflow'
           git push
