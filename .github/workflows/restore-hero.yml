@@ -1,0 +1,67 @@
+name: Restore AGYASH hero
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore original root page and add background
+        run: |
+          git checkout 66d4617cb5f21158b75d63361ec1550b62cc9f1b -- index.html
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          pattern=r"  \.hero \{\n    padding: 130px 24px 60px;\n    text-align: center;\n    position: relative; overflow: hidden;\n  \}\n  \.hero::before \{.*?\n  \}"
+          replacement="""  .hero {
+            padding: 130px 24px 60px;
+            text-align: center;
+            position: relative; overflow: hidden;
+            isolation: isolate;
+            min-height: 720px;
+          }
+          .hero::before {
+            content: '';
+            position: absolute; inset: 64px 0 0;
+            z-index: -2;
+            background-image:
+              linear-gradient(to bottom, rgba(10,10,20,.18) 0%, rgba(10,10,20,.40) 34%, rgba(10,10,20,.70) 68%, #0a0a14 100%),
+              url('https://image.tmdb.org/t/p/original/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: saturate(.92) contrast(1.04);
+            opacity: .95;
+            transform: scale(1.02);
+            pointer-events: none;
+          }
+          .hero::after {
+            content: '';
+            position: absolute; inset: 64px 0 0;
+            z-index: -1;
+            background:
+              radial-gradient(circle at center, rgba(124,58,237,.14), transparent 52%),
+              linear-gradient(90deg, rgba(10,10,20,.52), transparent 22%, transparent 78%, rgba(10,10,20,.52));
+            pointer-events: none;
+          }
+          .hero > * { position: relative; z-index: 1; }"""
+          ns,n=re.subn(pattern,replacement,s,count=1,flags=re.S)
+          if n != 1: raise SystemExit('hero CSS not found')
+          p.write_text(ns,encoding='utf-8')
+          PY
+      - name: Commit fixed page
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Restore original page and add cinematic hero background'
+          git push
+          git rm .github/workflows/restore-hero.yml
+          git commit -m 'Remove temporary restore workflow'
+          git push
