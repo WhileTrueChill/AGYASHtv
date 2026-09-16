@@ -1,0 +1,42 @@
+name: Restore AGYASH TV final
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore and apply fixes
+        run: |
+          curl -fsSL 'https://raw.githubusercontent.com/WhileTrueChill/AGYASHtv/d358de0769fdaca7c0eae597a51673a65b533072/index.html' -o index.html
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          # Cinematic hero using the uploaded repo image.
+          pattern=r"  \.hero \{\n    padding: 130px 24px 60px;\n    text-align: center;\n    position: relative; overflow: hidden;\n  \}\n  \.hero::before \{.*?\n  \}"
+          replacement="""  .hero {\n    padding: 130px 24px 60px;\n    text-align: center;\n    position: relative; overflow: hidden;\n    isolation: isolate;\n    min-height: 720px;\n  }\n  .hero::before {\n    content: '';\n    position: absolute; inset: 64px 0 0;\n    z-index: -2;\n    background-image:\n      linear-gradient(to bottom, rgba(10,10,20,.18) 0%, rgba(10,10,20,.40) 34%, rgba(10,10,20,.70) 68%, #0a0a14 100%),\n      url('/assets/agyash-bg.jpg');\n    background-size: cover;\n    background-position: center;\n    background-repeat: no-repeat;\n    filter: saturate(.92) contrast(1.04);\n    opacity: .95;\n    transform: scale(1.02);\n    pointer-events: none;\n  }"""
+          s,n=re.subn(pattern,replacement,s,count=1,flags=re.S)
+          if n != 1: raise SystemExit('hero block not found')
+          s=s.replace('<a class="nav-logo" href="#">AGYASH<span> TV</span></a>','<a class="nav-logo" href="https://wa.me/918873945359?text=Hi%20AGYASH%20TV%2C%20I%20want%20to%20know%20more." target="_blank" rel="noopener">AGYASH<span> TV</span></a>')
+          old="""function handlePlanPurchase(plan, price) {\n  // Opens plan purchase page at your Vercel server\n  window.open(`${SERVER_URL}/purchase?plan=${encodeURIComponent(plan)}&price=${price}`, '_blank');\n}"""
+          new="""function handlePlanPurchase(plan, price) {\n  const msg = `Hi AGYASH TV, I want to know about the ${plan} plan (₹${price}).`;\n  window.open(`https://wa.me/918873945359?text=${encodeURIComponent(msg)}`, '_blank');\n}"""
+          if old not in s: raise SystemExit('plan handler not found')
+          s=s.replace(old,new,1)
+          s=s.replace('https://wa.me/919999999999','https://wa.me/918873945359')
+          s=s.replace('tel:+919999999999','tel:+918873945359')
+          s=s.replace('+91 99999 99999','+91 88739 45359')
+          s=s.replace('© 2025 AGYASH TV. All rights reserved.','© 2026 AGYASH TV. All rights reserved.')
+          p.write_text(s,encoding='utf-8')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m 'Restore full page and apply WhatsApp 2026 fixes [skip ci]'
+          git push
