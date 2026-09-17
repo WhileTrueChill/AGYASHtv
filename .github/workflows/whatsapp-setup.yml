@@ -16,17 +16,19 @@ jobs:
           from pathlib import Path
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
-          wa = 'https://wa.me/918873945359?text=Hi%20AGYASH%20TV%2C%20I%20want%20to%20know%20more.'
+          wa = 'https://wa.me/919507670255?text=Hi%20AGYASH%20TV%2C%20I%20want%20to%20know%20more.'
           s = s.replace('<a class="nav-logo" href="#">AGYASH<span> TV</span></a>', '<a class="nav-logo" href="' + wa + '" target="_blank" rel="noopener">AGYASH<span> TV</span></a>')
           old = "function handlePlanPurchase(plan, price) {\n  // Opens plan purchase page at your Vercel server\n  window.open(`${SERVER_URL}/purchase?plan=${encodeURIComponent(plan)}&price=${price}`, '_blank');\n}"
-          new = "function handlePlanPurchase(plan, price) {\n  const msg = `Hi AGYASH TV, I want to know about the ${plan} plan (₹${price}).`;\n  window.open(`https://wa.me/918873945359?text=${encodeURIComponent(msg)}`, '_blank');\n}"
+          new = "function handlePlanPurchase(plan, price) {\n  const msg = `Hi AGYASH TV, I want to know about the ${plan} plan (₹${price}).`;\n  window.open(`https://wa.me/919507670255?text=${encodeURIComponent(msg)}`, '_blank');\n}"
           if old not in s:
               raise SystemExit('handlePlanPurchase function not found')
           s = s.replace(old, new, 1)
-          s = s.replace('https://wa.me/919999999999?text=Hi%20AGYASH%20TV%20Support!', 'https://wa.me/918873945359?text=Hi%20AGYASH%20TV%20Support!')
-          s = s.replace('+91 99999 99999', '+91 88739 45359')
-          s = s.replace('tel:+919999999999', 'tel:+918873945359')
-          s = s.replace("+91 99999 99999</strong>", '+91 88739 45359</strong>')
+          s = s.replace('https://wa.me/919999999999', 'https://wa.me/919507670255')
+          s = s.replace('https://wa.me/918873945359', 'https://wa.me/919507670255')
+          s = s.replace('+91 99999 99999', '+91 95076 70255')
+          s = s.replace('tel:+919999999999', 'tel:+919507670255')
+          s = s.replace('tel:+918873945359', 'tel:+919507670255')
+          s = s.replace('+91 88739 45359', '+91 95076 70255')
           p.write_text(s, encoding='utf-8')
           PY
           git config user.name 'github-actions[bot]'
