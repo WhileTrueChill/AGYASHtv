@@ -369,15 +369,13 @@
 
 <script>
 const SERVER_URL = 'https://filex.uk:8080';
-const TMDB_API_KEY = 'YOUR_TMDB_API_KEY_HERE';
-const TMDB_BASE = 'https://api.themoviedb.org/3';
 const TMDB_IMG = 'https://image.tmdb.org/t/p/w500';
 const TMDB_IMG_BIG = 'https://image.tmdb.org/t/p/w780';
 
 async function fetchTMDB(path) {
-  const sep = path.includes('?') ? '&' : '?';
-  const res = await fetch(`${TMDB_BASE}${path}${sep}api_key=${TMDB_API_KEY}&language=en-US`);
-  if (!res.ok) throw new Error('TMDB fetch failed');
+  const kind = path.includes('/tv/') ? 'tv' : 'movie';
+  const res = await fetch(`/api/trending?kind=${kind}`);
+  if (!res.ok) throw new Error('Trending API unavailable (' + res.status + ')');
   return res.json();
 }
 
