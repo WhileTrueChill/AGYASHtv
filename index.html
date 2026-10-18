@@ -250,6 +250,43 @@
     #plans .plan-card:nth-child(3) { grid-column: 1 / -1; max-width: calc(50% - 7px); }
   }
 
+  /* Netflix-inspired subscription selector and plan cards */
+  .plan-toggle { display:flex; width:fit-content; gap:6px; padding:5px; margin:0 0 12px; background:#11111f; border:1px solid var(--border-subtle); border-radius:14px; }
+  .plan-toggle-btn { border:0; cursor:pointer; border-radius:10px; padding:11px 17px; color:var(--text-secondary); background:transparent; font:700 .87rem 'Inter',sans-serif; transition:background .2s,color .2s,box-shadow .2s; }
+  .plan-toggle-btn.active { color:#fff; background:linear-gradient(135deg,#e50914,#b20710); box-shadow:0 5px 18px rgba(229,9,20,.22); }
+  .age-pill { display:inline-block; margin-left:5px; padding:2px 5px; font-size:.65rem; border-radius:5px; background:rgba(255,255,255,.15); }
+  .plan-type-note { color:var(--text-secondary); font-size:.78rem; margin:0 0 20px 3px; }
+  #plans .plan-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+  #plans .plan-card { min-height:320px; padding:23px; border-color:rgba(255,255,255,.1); background:linear-gradient(155deg,#1c1c2c 0%,#11111d 65%,#151027 100%); }
+  #plans .plan-card::before { background:radial-gradient(circle at 90% 4%,rgba(229,9,20,.17),transparent 48%); }
+  #plans .plan-card:nth-child(2), #plans .plan-card:nth-child(3) { background:linear-gradient(155deg,#1c1c2c 0%,#11111d 65%,#151027 100%); border-color:rgba(255,255,255,.1); }
+  #plans .plan-card.featured-plan { border-color:rgba(229,9,20,.72); box-shadow:0 0 0 1px rgba(229,9,20,.15); }
+  #plans .plan-card.annual-plan { border-color:rgba(192,132,252,.52); }
+  #plans .plan-kicker { position:relative; z-index:1; color:#b6a9d5; font-size:.65rem; font-weight:800; letter-spacing:.1em; margin-bottom:13px; }
+  #plans .plan-name { font-size:1.1rem; margin-bottom:14px; }
+  #plans .plan-price { font-size:clamp(2rem,3vw,2.65rem); white-space:nowrap; }
+  #plans .plan-period { min-height:18px; margin-bottom:17px; }
+  #plans .plan-includes { position:relative; z-index:1; color:#c8c4d8; line-height:1.9; font-size:.75rem; margin:0 0 22px; }
+  #plans .btn-plan { border-radius:9px; background:#e50914; box-shadow:none; font-size:.83rem; }
+  #plans .btn-plan:hover { background:#f6121d; box-shadow:0 8px 24px rgba(229,9,20,.22); }
+  #plans .featured-plan .btn-plan { background:linear-gradient(135deg,#e50914,#b20710); }
+  #plans .annual-plan .btn-plan { background:linear-gradient(135deg,#7c3aed,#a855f7); }
+  .plan-ribbon { position:absolute; top:0; right:0; z-index:2; padding:6px 10px; border-bottom-left-radius:10px; background:#e50914; color:#fff; font-size:.57rem; font-weight:900; letter-spacing:.07em; }
+  .annual-plan .plan-ribbon { background:#7c3aed; }
+  .plan-disclaimer { color:var(--text-muted); font-size:.73rem; line-height:1.6; margin-top:17px; }
+  @media (max-width: 1050px) { #plans .plan-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (max-width: 560px) {
+    #plans .plan-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
+    #plans .plan-card { padding:17px 14px; min-height:305px; }
+    #plans .plan-name { font-size:.97rem; }
+    #plans .plan-price { font-size:1.85rem; }
+    #plans .plan-period { font-size:.7rem; }
+    #plans .plan-includes { font-size:.68rem; }
+    #plans .btn-plan { min-height:43px; padding:9px 5px; font-size:.72rem; }
+    .plan-toggle { width:100%; }
+    .plan-toggle-btn { flex:1; padding:11px 7px; font-size:.77rem; }
+  }
+
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
   .contact-info, .contact-form-wrap { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 28px; }
   .contact-info { display: flex; flex-direction: column; gap: 18px; }
@@ -303,11 +340,23 @@
 
 <section class="section" id="features"><div class="section-header"><div class="section-title">Why AGYASH TV?</div></div><div class="cards-grid"><div class="media-card"><div class="media-card-body"><div class="media-card-title">Global + Indian Content</div><div class="media-card-meta">Hollywood · Bollywood · South · K-Drama</div></div></div><div class="media-card"><div class="media-card-body"><div class="media-card-title">Smooth Streaming</div><div class="media-card-meta">Fast, responsive experience</div></div></div><div class="media-card"><div class="media-card-body"><div class="media-card-title">Multi-Device</div><div class="media-card-meta">Phone · Tablet · Laptop · TV</div></div></div><div class="media-card"><div class="media-card-body"><div class="media-card-title">Family Friendly</div><div class="media-card-meta">Profiles & controls</div></div></div></div></section>
 
-<section class="section" id="plans"><div class="section-header"><div class="section-title">Simple Plans</div></div><div class="cards-grid">
-<div class="plan-card"><div class="plan-name">1 Day Trial</div><div class="plan-price"><sup>₹</sup>22</div><div class="plan-period">1 day · Try everything</div><button class="btn-plan" onclick="handlePlanPurchase('Trial', 22)">Try for ₹22</button></div>
-<div class="plan-card"><div class="plan-name">Monthly</div><div class="plan-price"><sup>₹</sup>149</div><div class="plan-period">Monthly · Most popular</div><button class="btn-plan" onclick="handlePlanPurchase('Monthly', 149)">Get Monthly</button></div>
-<div class="plan-card"><div class="plan-name">6 Months</div><div class="plan-price"><sup>₹</sup>699</div><div class="plan-period">6 months · Save 22%</div><button class="btn-plan" onclick="handlePlanPurchase('6-Month', 699)">Get 6 Months</button></div>
-</div></section>
+<section class="section" id="plans">
+  <div class="section-header">
+    <div><div class="section-title">Choose Your Plan</div><p style="color:var(--text-secondary);margin-top:8px;font-size:.9rem">Simple pricing. Big entertainment. Choose the plan that fits you.</p></div>
+  </div>
+  <div class="plan-toggle" role="group" aria-label="Subscription type">
+    <button class="plan-toggle-btn active" id="regularTab" onclick="setPlanType('regular')" aria-pressed="true">Regular</button>
+    <button class="plan-toggle-btn" id="adultTab" onclick="setPlanType('adult')" aria-pressed="false">Regular + Adult <span class="age-pill">18+</span></button>
+  </div>
+  <div class="plan-type-note" id="planTypeNote">Regular entertainment subscription</div>
+  <div class="cards-grid plan-grid">
+    <article class="plan-card"><div class="plan-kicker">FLEXIBLE</div><div class="plan-name">1 Month</div><div class="plan-price"><sup>₹</sup><span class="price-value" data-regular="179" data-adult="199">179</span></div><div class="plan-period">30-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('1 Month', currentPlanType === 'adult' ? 199 : 179)">Choose 1 Month</button></article>
+    <article class="plan-card featured-plan"><div class="plan-ribbon">POPULAR</div><div class="plan-kicker">GREAT VALUE</div><div class="plan-name">3 Months</div><div class="plan-price"><sup>₹</sup><span class="price-value" data-regular="499" data-adult="529">499</span></div><div class="plan-period">90-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('3 Months', currentPlanType === 'adult' ? 529 : 499)">Choose 3 Months</button></article>
+    <article class="plan-card"><div class="plan-kicker">LONGER ENJOYMENT</div><div class="plan-name">6 Months</div><div class="plan-price"><sup>₹</sup><span class="price-value" data-regular="899" data-adult="929">899</span></div><div class="plan-period">180-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('6 Months', currentPlanType === 'adult' ? 929 : 899)">Choose 6 Months</button></article>
+    <article class="plan-card annual-plan"><div class="plan-ribbon">ANNUAL PLAN</div><div class="plan-kicker">BEST COMMITMENT</div><div class="plan-name">1 Year</div><div class="plan-price"><sup>₹</sup><span class="price-value" data-regular="1799" data-adult="1849">1,799</span></div><div class="plan-period">365-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('1 Year', currentPlanType === 'adult' ? 1849 : 1799)">Choose 1 Year</button></article>
+  </div>
+  <p class="plan-disclaimer">Adult-channel access is available only with the Regular + Adult plan and is intended for adults aged 18+.</p>
+</section>
 
 <section class="section" id="contact"><div class="section-header"><div class="section-title">💬 Get In Touch</div></div><div class="contact-grid"><div class="contact-info"><div><div class="contact-info-title">We're here to help</div><div class="contact-info-desc">Have a question about plans, billing, or content? Reach out anytime — our support team responds within minutes on WhatsApp.</div></div>
 <a class="contact-item" href="https://wa.me/919507670255?text=Hi%20AGYASH%20TV%20Support!" target="_blank" rel="noopener"><div class="contact-item-icon wa"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.570-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div><div><div class="contact-item-text-label">WhatsApp Support</div><div class="contact-item-text-val">+91 95076 70255</div></div></a>
@@ -379,7 +428,27 @@ function closeModal(e) { if (e.target === document.getElementById('modalOverlay'
 function closeModalBtn() { const o=document.getElementById('modalOverlay'); if(o)o.classList.remove('active'); document.body.style.overflow=''; }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalBtn(); });
 function handleSignIn() { window.open(`${SERVER_URL}/login`, '_blank'); }
-function handlePlanPurchase(plan, price) { const msg = `Hi AGYASH TV, I want to know about the ${plan} plan (₹${price}).`; window.open(`https://wa.me/919507670255?text=${encodeURIComponent(msg)}`, '_blank'); }
+let currentPlanType = 'regular';
+function setPlanType(type) {
+  currentPlanType = type === 'adult' ? 'adult' : 'regular';
+  document.querySelectorAll('.price-value').forEach(el => {
+    const value = el.dataset[currentPlanType];
+    if (value) el.textContent = Number(value).toLocaleString('en-IN');
+  });
+  const regularTab = document.getElementById('regularTab');
+  const adultTab = document.getElementById('adultTab');
+  regularTab.classList.toggle('active', currentPlanType === 'regular');
+  adultTab.classList.toggle('active', currentPlanType === 'adult');
+  regularTab.setAttribute('aria-pressed', String(currentPlanType === 'regular'));
+  adultTab.setAttribute('aria-pressed', String(currentPlanType === 'adult'));
+  const note = document.getElementById('planTypeNote');
+  if (note) note.textContent = currentPlanType === 'adult' ? 'Regular entertainment + adult channels (18+ only)' : 'Regular entertainment subscription';
+}
+function handlePlanPurchase(plan, price) {
+  const typeLabel = currentPlanType === 'adult' ? 'Regular + Adult (18+)' : 'Regular';
+  const msg = `Hi AGYASH TV, I want to subscribe to the ${plan} ${typeLabel} plan (₹${price}).`;
+  window.open(`https://wa.me/919507670255?text=${encodeURIComponent(msg)}`, '_blank');
+}
 function scrollToPlans() { document.getElementById('plans').scrollIntoView({ behavior: 'smooth' }); }
 function sendContactForm() {
   const name=document.getElementById('cf-name').value.trim(), email=document.getElementById('cf-email').value.trim(), subject=document.getElementById('cf-subject').value, message=document.getElementById('cf-message').value.trim();
@@ -389,7 +458,7 @@ function sendContactForm() {
 }
 let chatOpen=false;
 function toggleChat(){chatOpen=!chatOpen;const w=document.getElementById('chatbotWindow'),f=document.getElementById('chatFab');if(w)w.classList.toggle('open',chatOpen);if(f)f.classList.toggle('open',chatOpen);if(chatOpen){const i=document.getElementById('chatInput');if(i)setTimeout(()=>i.focus(),350);}}
-const botResponses={'plan':'📋 We have 3 simple plans:\n• <strong>Free Trial</strong> – ₹22 (1 day, try everything!)\n• <strong>Monthly</strong> – ₹149/month (most popular)\n• <strong>6 Months</strong> – ₹699 (best value, only ₹116/mo)\n\nScroll to Plans to get started!','sign':'🔐 You can sign in at <strong>filex.uk:8080/login</strong>. Click the Sign In button at the top of the page!','trial':'🎁 Yes! Try AGYASH TV for just <strong>₹22 for 1 full day</strong> — access everything. No commitment needed. Click "Get Started" to begin!','billing':'💳 For billing issues, please WhatsApp us at <strong>+91 95076 70255</strong> or email agyash802@gmail.com and we\'ll sort it out within minutes.','cancel':'✅ You can cancel anytime from your account settings. No lock-in periods, no hidden charges.','download':'📥 Offline downloads are available on the Premium & Annual plans via our iOS and Android apps.','device':'📱 You can watch on phones, tablets, laptops, smart TVs, and browsers. Premium allows 4 simultaneous screens.','content':'🎬 We carry 10,000+ titles including Hollywood, Bollywood, South cinema, K-Dramas, and AGYASH Originals.','default':'🤔 Thanks for your message! For faster help, WhatsApp us at <strong>+91 95076 70255</strong> or email agyash802@gmail.com — we usually reply in minutes.'};
+const botResponses={'plan':'📋 Regular plans:\n• 1 Month – ₹179\n• 3 Months – ₹499\n• 6 Months – ₹899\n• 1 Year – ₹1,799\n\nRegular + Adult (18+) plans:\n• 1 Month – ₹199\n• 3 Months – ₹529\n• 6 Months – ₹929\n• 1 Year – ₹1,849\n\nScroll to Plans to choose your plan!','sign':'🔐 You can sign in at <strong>filex.uk:8080/login</strong>. Click the Sign In button at the top of the page!','trial':'🎁 Yes! Try AGYASH TV for just <strong>₹22 for 1 full day</strong> — access everything. No commitment needed. Click "Get Started" to begin!','billing':'💳 For billing issues, please WhatsApp us at <strong>+91 95076 70255</strong> or email agyash802@gmail.com and we\'ll sort it out within minutes.','cancel':'✅ You can cancel anytime from your account settings. No lock-in periods, no hidden charges.','download':'📥 Offline downloads are available on the Premium & Annual plans via our iOS and Android apps.','device':'📱 You can watch on phones, tablets, laptops, smart TVs, and browsers. Premium allows 4 simultaneous screens.','content':'🎬 We carry 10,000+ titles including Hollywood, Bollywood, South cinema, K-Dramas, and AGYASH Originals.','default':'🤔 Thanks for your message! For faster help, WhatsApp us at <strong>+91 95076 70255</strong> or email agyash802@gmail.com — we usually reply in minutes.'};
 function getBotReply(msg){const m=msg.toLowerCase();for(const k of Object.keys(botResponses)){if(k!=='default'&&m.includes(k))return botResponses[k];}return botResponses.default;}
 function appendMsg(text,type){const box=document.getElementById('chatMessages');if(!box)return;const d=document.createElement('div');d.className=`chat-msg ${type}`;d.innerHTML=text.replace(/\n/g,'<br>');box.appendChild(d);box.scrollTop=box.scrollHeight;}
 function sendChat(){const i=document.getElementById('chatInput');if(!i)return;const msg=i.value.trim();if(!msg)return;i.value='';appendMsg(msg,'user');setTimeout(()=>appendMsg(getBotReply(msg),'bot'),500);}
