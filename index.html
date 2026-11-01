@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AGYASH TV</title>
+<link rel="icon" href="/assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#080808">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-primary: #080808;
+    --bg-secondary: #111111;
+    --bg-card: #171717;
+    --bg-card-hover: #252525;
+    --accent: #e50914;
+    --accent-bright: #ff3944;
+    --accent-glow: rgba(229, 9, 20, 0.32);
+    --accent-2: #ffffff;
+    --accent-2-dim: rgba(255, 255, 255, 0.07);
+    --text-primary: #f0eeff;
+    --text-secondary: #b3b3b3;
+    --text-muted: #777777;
+    --border: rgba(229, 9, 20, 0.24);
+    --border-subtle: rgba(255,255,255,0.06);
+    --badge-live: #ef4444;
+    --badge-new: #10b981;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg-primary); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; height: 64px;
+    background: rgba(10, 10, 20, 0.88);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .nav-logo {
+    font-size: 1.35rem; font-weight: 900; letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #c084fc 0%, var(--accent-2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+  }
+  .nav-logo span { font-weight: 300; }
+
+  .nav-links { display: flex; align-items: center; gap: 6px; }
+  .nav-links a {
+    color: var(--text-secondary); text-decoration: none;
+    font-size: 0.875rem; font-weight: 500; padding: 6px 14px;
+    border-radius: var(--radius-sm); transition: color 0.2s, background 0.2s;
+  }
+  .nav-links a:hover { color: var(--text-primary); background: var(--border-subtle); }
+  .nav-actions { display: flex; align-items: center; gap: 10px; }
+  .btn-signin {
+    font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+    padding: 8px 20px; border-radius: var(--radius-sm); border: 1px solid var(--border);
+    background: transparent; color: var(--text-primary); transition: background 0.2s, border-color 0.2s;
+  }
+  .btn-signin:hover { background: var(--border-subtle); border-color: var(--accent); }
+  .btn-primary {
+    font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+    padding: 8px 22px; border-radius: var(--radius-sm); border: none;
+    background: linear-gradient(135deg, var(--accent) 0%, #a855f7 100%); color: #fff;
+    box-shadow: 0 0 18px var(--accent-glow); transition: opacity 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.88; box-shadow: 0 0 30px var(--accent-glow); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: transform 0.3s, opacity 0.3s; }
+
+  .hero {
+    padding: 165px max(24px, calc((100vw - 1290px) / 2)) 100px; text-align: left; position: relative; overflow: hidden;
+    isolation: isolate; min-height: 690px; display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 64px 0 0; z-index: -2;
+    background-image:
+      linear-gradient(90deg, rgba(8,8,8,.64) 0%, rgba(8,8,8,.34) 38%, rgba(8,8,8,.08) 72%, rgba(8,8,8,.24) 100%), linear-gradient(to bottom, rgba(8,8,8,.04) 0%, rgba(8,8,8,.18) 45%, #080808 100%),
+      url('https://i.blogs.es/75dadc/netflix/840_560.jpeg');
+    background-size: cover; background-position: center; background-repeat: no-repeat;
+    filter: saturate(.92) contrast(1.04); opacity: .95; transform: scale(1.02); pointer-events: none;
+  }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-2-dim); border: 1px solid rgba(255,255,255,0.18); padding: 5px 14px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; color: var(--accent-2); margin-bottom: 22px; letter-spacing: 0.04em; }
+  .hero-eyebrow .dot { width: 6px; height: 6px; background: var(--accent-2); border-radius: 50%; }
+  .hero h1 { font-size: clamp(2.4rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 20px; }
+  .hero h1 em { font-style: normal; background: linear-gradient(135deg, #c084fc 0%, var(--accent-2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero p { max-width: 540px; margin: 0 0 34px; font-size: 1.05rem; color: var(--text-secondary); line-height: 1.65; font-weight: 400; }
+  .hero-cta { display: flex; justify-content: flex-start; gap: 12px; flex-wrap: wrap; }
+  .btn-hero-primary { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; padding: 14px 34px; border-radius: var(--radius-md); border: none; background: linear-gradient(135deg, var(--accent) 0%, #a855f7 100%); color: #fff; box-shadow: 0 4px 24px var(--accent-glow); transition: opacity 0.2s, transform 0.2s; }
+  .btn-hero-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-hero-outline { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; padding: 14px 34px; border-radius: var(--radius-md); border: 1px solid var(--border); background: transparent; color: var(--text-primary); transition: background 0.2s, border-color 0.2s; }
+  .btn-hero-outline:hover { background: var(--border-subtle); border-color: var(--accent); }
+
+  .section { padding: 60px 24px; max-width: 1340px; margin: 0 auto; }
+  .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 28px; gap: 12px; }
+  .section-title { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.5px; }
+  .section-title .pill { display: inline-flex; align-items: center; gap: 5px; background: var(--badge-live); padding: 2px 8px; border-radius: 100px; font-size: 0.62rem; font-weight: 700; color: #fff; margin-left: 8px; vertical-align: middle; letter-spacing: 0.06em; }
+  .section-more { font-size: 0.8rem; font-weight: 600; color: var(--accent-bright); text-decoration: none; white-space: nowrap; }
+  .section-more:hover { text-decoration: underline; }
+
+  .ticker-wrap { background: var(--bg-card); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); padding: 12px 0; overflow: hidden; position: relative; }
+  .ticker-track { display: flex; gap: 0; animation: tickerScroll 40s linear infinite; width: max-content; }
+  .ticker-item { display: flex; align-items: center; gap: 8px; padding: 0 28px; white-space: nowrap; font-size: 0.8rem; color: var(--text-secondary); font-weight: 500; }
+  .ticker-item .badge { background: var(--accent); color: #fff; padding: 2px 7px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; }
+  .ticker-item .green { color: #34d399; } .ticker-item .red { color: #f87171; }
+  @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .stats-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); overflow: hidden; margin: 0 24px; }
+  .stat-cell { background: var(--bg-card); padding: 24px; text-align: center; }
+  .stat-num { font-size: 1.9rem; font-weight: 900; letter-spacing: -1px; background: linear-gradient(135deg, #c084fc, var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: block; }
+  .stat-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
+  .media-card { background: var(--bg-card); border-radius: var(--radius-md); overflow: hidden; cursor: pointer; border: 1px solid var(--border-subtle); transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; position: relative; }
+  .media-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px var(--accent); border-color: var(--accent); }
+  .media-card-img { width: 100%; aspect-ratio: 2/3; object-fit: cover; background: linear-gradient(135deg, #1a1a35 0%, #0f0f1e 100%); display: block; }
+  .media-card-img-placeholder { width: 100%; aspect-ratio: 2/3; background: linear-gradient(135deg, #1a1a35 0%, #0f0f1e 100%); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+  .media-card-body { padding: 12px; }
+  .media-card-title { font-size: 0.85rem; font-weight: 700; line-height: 1.3; margin-bottom: 5px; color: var(--text-primary); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .media-card-meta { display: flex; align-items: center; gap: 6px; font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
+  .media-card-meta .dot { width: 3px; height: 3px; background: var(--text-muted); border-radius: 50%; }
+  .media-card-rank { position: absolute; top: 10px; left: 10px; background: var(--accent); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; }
+  .media-card-type { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); color: var(--accent-2); font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(6,182,212,0.3); text-transform: uppercase; letter-spacing: 0.04em; }
+  .rating { display: inline-flex; align-items: center; gap: 3px; color: #fbbf24; font-weight: 600; }
+  .skeleton { background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-hover) 50%, var(--bg-card) 75%); background-size: 200% 100%; animation: skeleton 1.5s infinite; }
+  @keyframes skeleton { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+
+  /* ─── PLANS ─── */
+  .plan-card {
+    background: linear-gradient(145deg, rgba(19,19,42,.96), rgba(10,10,20,.96));
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 26px;
+    position: relative;
+    overflow: hidden;
+    min-height: 285px;
+    display: flex;
+    flex-direction: column;
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+  }
+  .plan-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 85% 15%, rgba(124,58,237,.16), transparent 42%);
+    pointer-events: none;
+  }
+  .plan-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 14px 40px rgba(0,0,0,.42), 0 0 24px var(--accent-glow);
+  }
+  .plan-card:nth-child(2) {
+    border-color: rgba(255,255,255,.18);
+    background: linear-gradient(145deg, rgba(12,27,48,.96), rgba(10,10,20,.96));
+  }
+  .plan-card:nth-child(3) {
+    border-color: rgba(16,185,129,.42);
+    background: linear-gradient(145deg, rgba(8,31,31,.96), rgba(10,10,20,.96));
+  }
+  .plan-name {
+    position: relative;
+    z-index: 1;
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+  .plan-price {
+    position: relative;
+    z-index: 1;
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin-bottom: 7px;
+  }
+  .plan-price sup { font-size: 1.1rem; vertical-align: top; margin-right: 2px; }
+  .plan-period {
+    position: relative;
+    z-index: 1;
+    color: var(--text-secondary);
+    font-size: .82rem;
+    margin-bottom: 20px;
+  }
+  .btn-plan {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin-top: auto;
+    min-height: 48px;
+    padding: 12px 18px;
+    border: 0;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: .92rem;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--accent), #a855f7);
+    box-shadow: 0 7px 22px rgba(124,58,237,.28);
+    transition: transform .2s, opacity .2s, box-shadow .2s;
+  }
+  .plan-card:nth-child(2) .btn-plan {
+    background: linear-gradient(135deg, #0891b2, #2563eb);
+    box-shadow: 0 7px 22px rgba(229,9,20,.25);
+  }
+  .plan-card:nth-child(3) .btn-plan {
+    background: linear-gradient(135deg, #10b981, #22c55e);
+    box-shadow: 0 7px 22px rgba(16,185,129,.25);
+  }
+  .btn-plan:hover {
+    transform: translateY(-2px);
+    opacity: .92;
+    box-shadow: 0 10px 28px rgba(124,58,237,.38);
+  }
+  @media (max-width: 560px) {
+    #plans .cards-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+    #plans .plan-card { padding: 20px; min-height: 245px; }
+    #plans .plan-name { font-size: 1rem; }
+    #plans .plan-price { font-size: 2rem; }
+    #plans .plan-period { font-size: .74rem; }
+    #plans .btn-plan { min-height: 44px; padding: 10px 8px; font-size: .78rem; }
+    #plans .plan-card:nth-child(3) { grid-column: 1 / -1; max-width: calc(50% - 7px); }
+  }
+
+  /* Netflix-inspired subscription selector and plan cards */
+  .plan-toggle { display:flex; width:fit-content; gap:6px; padding:5px; margin:0 0 12px; background:#11111f; border:1px solid var(--border-subtle); border-radius:14px; }
+  .plan-toggle-btn { border:0; cursor:pointer; border-radius:10px; padding:11px 17px; color:var(--text-secondary); background:transparent; font:700 .87rem 'Inter',sans-serif; transition:background .2s,color .2s,box-shadow .2s; }
+  .plan-toggle-btn.active { color:#fff; background:linear-gradient(135deg,#e50914,#b20710); box-shadow:0 5px 18px rgba(229,9,20,.22); }
+  .age-pill { display:inline-block; margin-left:5px; padding:2px 5px; font-size:.65rem; border-radius:5px; background:rgba(255,255,255,.15); }
+  .plan-type-note { color:var(--text-secondary); font-size:.78rem; margin:0 0 20px 3px; }
+  #plans .plan-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+  #plans .plan-card { min-height:320px; padding:23px; border-color:rgba(255,255,255,.1); background:linear-gradient(155deg,#1c1c2c 0%,#11111d 65%,#151027 100%); }
+  #plans .plan-card::before { background:radial-gradient(circle at 90% 4%,rgba(229,9,20,.17),transparent 48%); }
+  #plans .plan-card:nth-child(2), #plans .plan-card:nth-child(3) { background:linear-gradient(155deg,#1c1c2c 0%,#11111d 65%,#151027 100%); border-color:rgba(255,255,255,.1); }
+  #plans .plan-card.featured-plan { border-color:rgba(229,9,20,.72); box-shadow:0 0 0 1px rgba(229,9,20,.15); }
+  #plans .plan-card.annual-plan { border-color:rgba(192,132,252,.52); }
+  #plans .plan-kicker { position:relative; z-index:1; color:#b6a9d5; font-size:.65rem; font-weight:800; letter-spacing:.1em; margin-bottom:13px; }
+  #plans .plan-name { font-size:1.1rem; margin-bottom:14px; }
+  #plans .plan-price { font-size:clamp(2rem,3vw,2.65rem); white-space:nowrap; }
+  #plans .plan-period { min-height:18px; margin-bottom:17px; }
+  #plans .plan-includes { position:relative; z-index:1; color:#c8c4d8; line-height:1.9; font-size:.75rem; margin:0 0 22px; }
+  #plans .btn-plan { border-radius:9px; background:#e50914; box-shadow:none; font-size:.83rem; }
+  #plans .btn-plan:hover { background:#f6121d; box-shadow:0 8px 24px rgba(229,9,20,.22); }
+  #plans .featured-plan .btn-plan { background:linear-gradient(135deg,#e50914,#b20710); }
+  #plans .annual-plan .btn-plan { background:linear-gradient(135deg,#7c3aed,#a855f7); }
+  .plan-ribbon { position:absolute; top:0; right:0; z-index:2; padding:6px 10px; border-bottom-left-radius:10px; background:#e50914; color:#fff; font-size:.57rem; font-weight:900; letter-spacing:.07em; }
+  .annual-plan .plan-ribbon { background:#7c3aed; }
+  .plan-disclaimer { color:var(--text-muted); font-size:.73rem; line-height:1.6; margin-top:17px; }
+  @media (max-width: 1050px) { #plans .plan-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (max-width: 560px) {
+    #plans .plan-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
+    #plans .plan-card { padding:17px 14px; min-height:305px; }
+    #plans .plan-name { font-size:.97rem; }
+    #plans .plan-price { font-size:1.85rem; }
+    #plans .plan-period { font-size:.7rem; }
+    #plans .plan-includes { font-size:.68rem; }
+    #plans .btn-plan { min-height:43px; padding:9px 5px; font-size:.72rem; }
+    .plan-toggle { width:100%; }
+    .plan-toggle-btn { flex:1; padding:11px 7px; font-size:.77rem; }
+  }
+
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .contact-info, .contact-form-wrap { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 28px; }
+  .contact-info { display: flex; flex-direction: column; gap: 18px; }
+  .contact-info-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
+  .contact-info-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; }
+  .contact-item { display: flex; align-items: center; gap: 14px; padding: 12px; border-radius: 12px; background: rgba(255,255,255,.025); text-decoration: none; }
+  .contact-item-icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 10px; flex: 0 0 40px; }
+  .contact-item-icon.wa { background: #25D366; } .contact-item-icon.email { background: #7c3aed; }
+  .contact-item-text-label { font-size: .72rem; color: var(--text-muted); } .contact-item-text-val { font-size: .88rem; font-weight: 700; color: var(--text-primary); margin-top: 2px; }
+  .form-group { margin-bottom: 14px; } .form-group label { display:block; font-size:.74rem; color:var(--text-secondary); margin-bottom:6px; }
+  .form-group input,.form-group select,.form-group textarea { width:100%; background:#0f0f1e; color:var(--text-primary); border:1px solid var(--border-subtle); border-radius:10px; padding:11px 12px; font-family:inherit; outline:none; }
+  .form-group textarea { min-height:110px; resize:vertical; }
+  .btn-contact-send { width:100%; padding:12px; border:0; border-radius:10px; color:#fff; font-weight:700; background:linear-gradient(135deg,var(--accent),#a855f7); cursor:pointer; }
+  .form-success { display:none; margin-top:10px; color:#34d399; font-size:.82rem; }
+  footer { border-top:1px solid var(--border-subtle); padding:28px 24px 40px; text-align:center; }
+  .footer-logo { font-weight:900; font-size:1.1rem; } .footer-links { display:flex; justify-content:center; flex-wrap:wrap; gap:14px; margin:14px 0; }
+  .footer-links a { color:var(--text-muted); text-decoration:none; font-size:.75rem; } .footer-copy { color:var(--text-muted); font-size:.72rem; }
+  .wa-fab { position:fixed; right:22px; bottom:22px; z-index:120; width:56px; height:56px; border-radius:50%; background:#25D366; display:grid; place-items:center; box-shadow:0 8px 28px rgba(37,211,102,.35); }
+  .wa-fab svg { width:28px; height:28px; fill:#fff; }
+  @media (max-width: 900px) { .nav-links { display:none; } .hamburger { display:flex; } .contact-grid { grid-template-columns:1fr; } .stats-strip { grid-template-columns:repeat(2,1fr); } }
+  @media (max-width: 560px) { nav { padding:0 16px; } .nav-actions .btn-primary { display:none; } .nav-actions .btn-signin { display:inline-flex; align-items:center; padding:8px 12px; } .hero { padding:145px 18px 72px; min-height:610px; } .hero h1 { letter-spacing:-.8px; } .hero p { font-size:.95rem; } .section { padding-left:16px; padding-right:16px; } .cards-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .stats-strip { margin:0 16px; } }
+</style>
+</head>
+<body>
+
+<div id="mobileMenu" class="mobile-menu" style="display:none"></div>
+
+<nav>
+  <a class="nav-logo" href="https://wa.me/919507670255?text=Hi%20AGYASH%20TV%2C%20I%20want%20to%20know%20more." target="_blank" rel="noopener">AGYASH<span> TV</span></a>
+  <div class="nav-links">
+    <a href="#trending">Trending</a><a href="#features">Features</a><a href="#plans">Plans</a><a href="#contact">Contact</a>
+  </div>
+  <div class="nav-actions">
+    <a class="btn-signin" href="https://filex.uk:8080/login" target="_blank" rel="noopener noreferrer" aria-label="Open AGYASH TV sign in page">Sign In</a><button class="btn-primary" onclick="scrollToPlans()">Get Started</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow"><span class="dot"></span> INDIA'S NEXT-GEN ENTERTAINMENT PLATFORM</div>
+  <h1>The World's Entertainment,<br><em>All in One Place</em></h1>
+  <p>Movies, web series, live TV and premium entertainment — simple, affordable and built for everyone.</p>
+  <div class="hero-cta"><button class="btn-hero-primary" onclick="scrollToPlans()">Start Watching</button><button class="btn-hero-outline" onclick="document.getElementById('trending').scrollIntoView({behavior:'smooth'})">Explore Trending</button></div>
+</section>
+
+<div class="ticker-wrap"><div class="ticker-track"><div class="ticker-item"><span class="badge">NEW</span> Fresh movies & shows every week</div><div class="ticker-item"><span class="green">●</span> 4K streaming on supported devices</div><div class="ticker-item"><span class="badge">LIVE</span> Entertainment & live TV</div><div class="ticker-item"><span class="green">●</span> Multi-language content</div><div class="ticker-item"><span class="badge">NEW</span> Fresh movies & shows every week</div><div class="ticker-item"><span class="green">●</span> 4K streaming on supported devices</div><div class="ticker-item"><span class="badge">LIVE</span> Entertainment & live TV</div><div class="ticker-item"><span class="green">●</span> Multi-language content</div></div></div>
+
+<div class="stats-strip"><div class="stat-cell"><span class="stat-num">10K+</span><span class="stat-label">Titles</span></div><div class="stat-cell"><span class="stat-num">4K</span><span class="stat-label">Streaming</span></div><div class="stat-cell"><span class="stat-num">12+</span><span class="stat-label">Languages</span></div><div class="stat-cell"><span class="stat-num">24/7</span><span class="stat-label">Entertainment</span></div></div>
+
+<section class="section" id="trending"><div class="section-header"><div class="section-title">Trending Now <span class="pill">LIVE</span></div><a class="section-more" href="#plans">View Plans →</a></div><div id="trendingGrid" class="cards-grid"></div></section>
+
+<section class="section" id="features"><div class="section-header"><div class="section-title">Why AGYASH TV?</div></div><div class="cards-grid"><div class="media-card"><div class="media-card-body"><div class="media-card-title">Global + Indian Content</div><div class="media-card-meta">Hollywood · Bollywood · South · K-Drama</div></div></div><div class="media-card"><div class="media-card-body"><div class="media-card-title">Smooth Streaming</div><div class="media-card-meta">Fast, responsive experience</div></div></div><div class="media-card"><div class="media-card-body"><div class="media-card-title">Multi-Device</div><div class="media-card-meta">Phone · Tablet · Laptop · TV</div></div></div><div class="media-card"><div class="media-card-body"><div class="media-card-title">Family Friendly</div><div class="media-card-meta">Profiles & controls</div></div></div></div></section>
+
+<section class="section" id="plans">
+  <div class="section-header">
+    <div><div class="section-title">Choose Your Plan</div><p style="color:var(--text-secondary);margin-top:8px;font-size:.9rem">Simple pricing. Big entertainment. Choose the plan that fits you.</p></div>
+  </div>
+  <div class="plan-toggle" role="group" aria-label="Subscription type">
+    <button class="plan-toggle-btn active" id="regularTab" onclick="setPlanType('regular')" aria-pressed="true">Regular</button>
+    <button class="plan-toggle-btn" id="adultTab" onclick="setPlanType('adult')" aria-pressed="false">Regular + Adult <span class="age-pill">18+</span></button>
+  </div>
+  <div class="plan-type-note" id="planTypeNote">Regular entertainment subscription</div>
+  <div class="cards-grid plan-grid">
+    <article class="plan-card"><div class="plan-kicker">FLEXIBLE</div><div class="plan-name">1 Month</div><div class="plan-price"><sup>₹</sup><span class="price-value" data-regular="179" data-adult="199">179</span></div><div class="plan-period">30-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('1 Month', currentPlanType === 'adult' ? 199 : 179)">Choose 1 Month</button></article>
+    <article class="plan-card featured-plan"><div class="plan-ribbon">POPULAR</div><div class="plan-kicker">GREAT VALUE</div><div class="plan-name">3 Months</div><div class="plan-price"><sup>₹</sup><span class="price-value" data-regular="499" data-adult="529">499</span></div><div class="plan-period">90-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('3 Months', currentPlanType === 'adult' ? 529 : 499)">Choose 3 Months</button></article>
+    <article class="plan-card"><div class="plan-kicker">LONGER ENJOYMENT</div><div class="plan-name">6 Months</div><div class="plan-price"><sup>₹</sup><span class="price-value" data-regular="899" data-adult="929">899</span></div><div class="plan-period">180-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('6 Months', currentPlanType === 'adult' ? 929 : 899)">Choose 6 Months</button></article>
+    <article class="plan-card annual-plan"><div class="plan-ribbon">ANNUAL PLAN</div><div class="plan-kicker">BEST COMMITMENT</div><div class="plan-name">1 Year</div><div class="plan-price"><sup>₹</sup><span class="price-value" data-regular="1799" data-adult="1849">1,799</span></div><div class="plan-period">365-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('1 Year', currentPlanType === 'adult' ? 1849 : 1799)">Choose 1 Year</button></article>
+  </div>
+  <p class="plan-disclaimer">Adult-channel access is available only with the Regular + Adult plan and is intended for adults aged 18+.</p>
+</section>
+
+<section class="section" id="contact"><div class="section-header"><div class="section-title">💬 Get In Touch</div></div><div class="contact-grid"><div class="contact-info"><div><div class="contact-info-title">We're here to help</div><div class="contact-info-desc">Have a question about plans, billing, or content? Reach out anytime — our support team responds within minutes on WhatsApp.</div></div>
+<a class="contact-item" href="https://wa.me/919507670255?text=Hi%20AGYASH%20TV%20Support!" target="_blank" rel="noopener"><div class="contact-item-icon wa"><svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.570-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div><div><div class="contact-item-text-label">WhatsApp Support</div><div class="contact-item-text-val">+91 95076 70255</div></div></a>
+<a class="contact-item" href="mailto:agyash802@gmail.com"><div class="contact-item-icon email">✉️</div><div><div class="contact-item-text-label">Email Us</div><div class="contact-item-text-val">agyash802@gmail.com</div></div></a>
+</div>
+<div class="contact-form-wrap"><div class="contact-form-title">Send a Message</div><div class="form-group"><label>Your Name</label><input type="text" id="cf-name" placeholder="e.g. Rahul Sharma"></div><div class="form-group"><label>Email</label><input type="email" id="cf-email" placeholder="you@example.com"></div><div class="form-group"><label>Subject</label><select id="cf-subject"><option value="">Choose a topic…</option><option>Plan / Pricing</option><option>Billing Issue</option><option>Content Request</option><option>Technical Problem</option><option>Other</option></select></div><div class="form-group"><label>Message</label><textarea id="cf-message" placeholder="Tell us how we can help…"></textarea></div><button class="btn-contact-send" onclick="sendContactForm()">Send Message</button><div class="form-success" id="formSuccess">✓ Message sent! We'll reply within a few minutes.</div></div></div></section>
+
+<footer><div class="footer-logo">AGYASH TV</div><div class="footer-links"><a href="#">About</a><a href="#">Terms</a><a href="#">Privacy</a><a href="#contact">Contact</a><a href="#">Help Centre</a></div><div class="footer-copy">© 2026 AGYASH TV. All rights reserved.</div></footer>
+<a class="wa-fab" href="https://wa.me/919507670255?text=Hi%20AGYASH%20TV!%20I%20need%20help." target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.570-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+
+<script>
+const SERVER_URL = 'https://filex.uk:8080';
+const TMDB_IMG = 'https://image.tmdb.org/t/p/w500';
+const TMDB_IMG_BIG = 'https://image.tmdb.org/t/p/w780';
+
+async function fetchTMDB(path) {
+  const kind = path.includes('/tv/') ? 'tv' : 'movie';
+  const res = await fetch(`/api/trending?kind=${kind}`);
+  if (!res.ok) throw new Error('Trending API unavailable (' + res.status + ')');
+  return res.json();
+}
+
+function renderMediaCard(item, type, rank) {
+  const title = item.title || item.name || 'Untitled';
+  const year = (item.release_date || item.first_air_date || '').slice(0,4);
+  const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
+  const poster = item.poster_path ? `${TMDB_IMG}${item.poster_path}` : '';
+  return `<div class="media-card" onclick='openMediaModal(${JSON.stringify(item).replace(/'/g,"&#39;")}, "${type}")'>
+    ${poster ? `<img class="media-card-img" src="${poster}" alt="${title}" loading="lazy">` : '<div class="media-card-img-placeholder">🎬</div>'}
+    ${rank ? `<span class="media-card-rank">#${rank}</span>` : ''}
+    <span class="media-card-type">${type}</span>
+    <div class="media-card-body"><div class="media-card-title">${title}</div><div class="media-card-meta"><span class="rating">★ ${rating}</span>${year ? `<span class="dot"></span><span>${year}</span>` : ''}</div></div>
+  </div>`;
+}
+
+async function loadTrending() {
+  const grid = document.getElementById('trendingGrid');
+  grid.innerHTML = Array.from({length:8}).map(()=>'<div class="media-card"><div class="media-card-img skeleton"></div><div class="media-card-body"><div class="skeleton" style="height:14px;width:80%;margin-bottom:8px"></div><div class="skeleton" style="height:10px;width:50%"></div></div></div>').join('');
+  try {
+    const [movies, tv] = await Promise.all([fetchTMDB('/trending/movie/week?page=1'), fetchTMDB('/trending/tv/week?page=1')]);
+    const items = [...(movies.results || []).slice(0,6), ...(tv.results || []).slice(0,6)];
+    grid.innerHTML = items.map((item,i)=>renderMediaCard(item, item.title ? 'movie' : 'tv', i+1)).join('');
+  } catch(e) {
+    grid.innerHTML = '<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--text-muted)">Unable to load trending content right now.</div>';
+  }
+}
+
+function openMediaModal(item, type) {
+  const title = item.title || item.name || 'Untitled';
+  const year = (item.release_date || item.first_air_date || '').slice(0,4);
+  const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
+  const backdrop = item.backdrop_path ? `${TMDB_IMG_BIG}${item.backdrop_path}` : (item.poster_path ? `${TMDB_IMG}${item.poster_path}` : '');
+  const modalPoster = document.getElementById('modalPoster');
+  if (modalPoster) { modalPoster.src = backdrop; modalPoster.alt = title; }
+  const modalType = document.getElementById('modalType'); if (modalType) modalType.textContent = type === 'movie' ? 'MOVIE' : 'TV SERIES';
+  const modalTitle = document.getElementById('modalTitle'); if (modalTitle) modalTitle.textContent = title;
+  const modalOverview = document.getElementById('modalOverview'); if (modalOverview) modalOverview.textContent = item.overview || 'No description available.';
+  const modalMeta = document.getElementById('modalMeta'); if (modalMeta) modalMeta.innerHTML = `${rating !== 'N/A' ? `<span class="rating">★ ${rating}</span> <span style="color:var(--border-subtle)">|</span>` : ''}${year ? `<span>${year}</span>` : ''}${item.vote_count ? `<span>${item.vote_count.toLocaleString()} votes</span>` : ''}`;
+  const overlay = document.getElementById('modalOverlay'); if (overlay) overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) { if (e.target === document.getElementById('modalOverlay')) closeModalBtn(); }
+function closeModalBtn() { const o=document.getElementById('modalOverlay'); if(o)o.classList.remove('active'); document.body.style.overflow=''; }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalBtn(); });
+// Sign In uses a direct anchor link so popup blockers cannot block it.
+let currentPlanType = 'regular';
+function setPlanType(type) {
+  currentPlanType = type === 'adult' ? 'adult' : 'regular';
+  document.querySelectorAll('.price-value').forEach(el => {
+    const value = el.dataset[currentPlanType];
+    if (value) el.textContent = Number(value).toLocaleString('en-IN');
+  });
+  const regularTab = document.getElementById('regularTab');
+  const adultTab = document.getElementById('adultTab');
+  regularTab.classList.toggle('active', currentPlanType === 'regular');
+  adultTab.classList.toggle('active', currentPlanType === 'adult');
+  regularTab.setAttribute('aria-pressed', String(currentPlanType === 'regular'));
+  adultTab.setAttribute('aria-pressed', String(currentPlanType === 'adult'));
+  const note = document.getElementById('planTypeNote');
+  if (note) note.textContent = currentPlanType === 'adult' ? 'Regular entertainment + adult channels (18+ only)' : 'Regular entertainment subscription';
+}
+function handlePlanPurchase(plan, price) {
+  const typeLabel = currentPlanType === 'adult' ? 'Regular + Adult (18+)' : 'Regular';
+  const msg = `Hi AGYASH TV, I want to subscribe to the ${plan} ${typeLabel} plan (₹${price}).`;
+  window.open(`https://wa.me/919507670255?text=${encodeURIComponent(msg)}`, '_blank');
+}
+function scrollToPlans() { document.getElementById('plans').scrollIntoView({ behavior: 'smooth' }); }
+function sendContactForm() {
+  const name=document.getElementById('cf-name').value.trim(), email=document.getElementById('cf-email').value.trim(), subject=document.getElementById('cf-subject').value, message=document.getElementById('cf-message').value.trim();
+  if(!name||!email||!message){alert('Please fill in your name, email, and message.');return;}
+  fetch(`${SERVER_URL}/contact`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,subject,message})}).catch(()=>{});
+  document.getElementById('formSuccess').style.display='block'; document.getElementById('cf-name').value=''; document.getElementById('cf-email').value=''; document.getElementById('cf-subject').value=''; document.getElementById('cf-message').value='';
+}
+let chatOpen=false;
+function toggleChat(){chatOpen=!chatOpen;const w=document.getElementById('chatbotWindow'),f=document.getElementById('chatFab');if(w)w.classList.toggle('open',chatOpen);if(f)f.classList.toggle('open',chatOpen);if(chatOpen){const i=document.getElementById('chatInput');if(i)setTimeout(()=>i.focus(),350);}}
+const botResponses={'plan':'📋 Regular plans:\n• 1 Month – ₹179\n• 3 Months – ₹499\n• 6 Months – ₹899\n• 1 Year – ₹1,799\n\nRegular + Adult (18+) plans:\n• 1 Month – ₹199\n• 3 Months – ₹529\n• 6 Months – ₹929\n• 1 Year – ₹1,849\n\nScroll to Plans to choose your plan!','sign':'🔐 <a href="https://filex.uk:8080/login" target="_blank" rel="noopener noreferrer"><strong>Open the AGYASH TV Sign In page</strong></a>. If the page itself does not load, please contact support to check the login server.','trial':'🎁 Yes! Try AGYASH TV for just <strong>₹22 for 1 full day</strong> — access everything. No commitment needed. Click "Get Started" to begin!','billing':'💳 For billing issues, please WhatsApp us at <strong>+91 95076 70255</strong> or email agyash802@gmail.com and we\'ll sort it out within minutes.','cancel':'✅ You can cancel anytime from your account settings. No lock-in periods, no hidden charges.','download':'📥 Offline downloads are available on the Premium & Annual plans via our iOS and Android apps.','device':'📱 You can watch on phones, tablets, laptops, smart TVs, and browsers. Premium allows 4 simultaneous screens.','content':'🎬 We carry 10,000+ titles including Hollywood, Bollywood, South cinema, K-Dramas, and AGYASH Originals.','default':'🤔 Thanks for your message! For faster help, WhatsApp us at <strong>+91 95076 70255</strong> or email agyash802@gmail.com — we usually reply in minutes.'};
+function getBotReply(msg){const m=msg.toLowerCase();for(const k of Object.keys(botResponses)){if(k!=='default'&&m.includes(k))return botResponses[k];}return botResponses.default;}
+function appendMsg(text,type){const box=document.getElementById('chatMessages');if(!box)return;const d=document.createElement('div');d.className=`chat-msg ${type}`;d.innerHTML=text.replace(/\n/g,'<br>');box.appendChild(d);box.scrollTop=box.scrollHeight;}
+function sendChat(){const i=document.getElementById('chatInput');if(!i)return;const msg=i.value.trim();if(!msg)return;i.value='';appendMsg(msg,'user');setTimeout(()=>appendMsg(getBotReply(msg),'bot'),500);}
+function quickReply(text){const q=document.getElementById('quickBtns');if(q)q.style.display='none';appendMsg(text,'user');setTimeout(()=>appendMsg(getBotReply(text),'bot'),500);}
+
+document.addEventListener('DOMContentLoaded',()=>{loadTrending();});
+</script>
+</body>
+</html>
