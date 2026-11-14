@@ -390,10 +390,10 @@
   </div>
   <div class="plan-type-note" id="planTypeNote">Regular entertainment subscription</div>
   <div class="cards-grid plan-grid">
-    <article class="plan-card"><div class="plan-kicker">FLEXIBLE</div><div class="plan-name">1 Month</div><div class="plan-price"><sup>₹</sup><span class="price-value" data-regular="179" data-adult="199">179</span></div><div class="plan-period">30-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('1 Month', currentPlanType === 'adult' ? 199 : 179)">Choose 1 Month</button></article>
-    <article class="plan-card featured-plan"><div class="plan-ribbon">POPULAR</div><div class="plan-kicker">GREAT VALUE</div><div class="plan-name">3 Months</div><div class="plan-price"><sup>₹</sup><span class="price-value" data-regular="499" data-adult="529">499</span></div><div class="plan-period">90-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('3 Months', currentPlanType === 'adult' ? 529 : 499)">Choose 3 Months</button></article>
-    <article class="plan-card"><div class="plan-kicker">LONGER ENJOYMENT</div><div class="plan-name">6 Months</div><div class="plan-price"><sup>₹</sup><span class="price-value" data-regular="899" data-adult="929">899</span></div><div class="plan-period">180-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('6 Months', currentPlanType === 'adult' ? 929 : 899)">Choose 6 Months</button></article>
-    <article class="plan-card annual-plan"><div class="plan-ribbon">ANNUAL PLAN</div><div class="plan-kicker">BEST COMMITMENT</div><div class="plan-name">1 Year</div><div class="plan-price"><sup>₹</sup><span class="price-value" data-regular="1799" data-adult="1849">1,799</span></div><div class="plan-period">365-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('1 Year', currentPlanType === 'adult' ? 1849 : 1799)">Choose 1 Year</button></article>
+    <article class="plan-card"><div class="plan-kicker">FLEXIBLE</div><div class="plan-name">1 Month</div><div class="plan-price"><span class="price-value" data-index="0">₹179</span></div><div class="plan-period">30-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('1 Month', 179)">Choose 1 Month</button></article>
+    <article class="plan-card featured-plan"><div class="plan-ribbon">POPULAR</div><div class="plan-kicker">GREAT VALUE</div><div class="plan-name">3 Months</div><div class="plan-price"><span class="price-value" data-index="1">₹499</span></div><div class="plan-period">90-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('3 Months', 499)">Choose 3 Months</button></article>
+    <article class="plan-card"><div class="plan-kicker">LONGER ENJOYMENT</div><div class="plan-name">6 Months</div><div class="plan-price"><span class="price-value" data-index="2">₹899</span></div><div class="plan-period">180-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('6 Months', 899)">Choose 6 Months</button></article>
+    <article class="plan-card annual-plan"><div class="plan-ribbon">ANNUAL PLAN</div><div class="plan-kicker">BEST COMMITMENT</div><div class="plan-name">1 Year</div><div class="plan-price"><span class="price-value" data-index="3">₹1,799</span></div><div class="plan-period">365-day subscription</div><div class="plan-includes">✓ Selected subscription access<br>✓ Phone, tablet, PC & TV</div><button class="btn-plan" onclick="handlePlanPurchase('1 Year', 1799)">Choose 1 Year</button></article>
   </div>
   <p class="plan-disclaimer">Adult-channel access is available only with the Regular + Adult plan and is intended for adults aged 18+.</p>
 </section>
@@ -614,12 +614,76 @@ function closeModalBtn() { const o=document.getElementById('modalOverlay'); if(o
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalBtn(); });
 // Sign In uses a direct anchor link so popup blockers cannot block it.
 let currentPlanType = 'regular';
+let currentCurrency = 'INR';
+let currentCountryCode = 'IN';
+let currentExchangeRate = 1;
+const planPricesINR = {
+  regular: [179, 499, 899, 1799],
+  adult: [199, 529, 929, 1849]
+};
+const planPricesUSD = {
+  regular: [10, 15, 17, 20],
+  adult: [13, 17, 19, 22]
+};
+const planNames = ['1 Month', '3 Months', '6 Months', '1 Year'];
+
+function formatPlanPrice(amount, currency) {
+  try {
+    return new Intl.NumberFormat(undefined, {
+      style: 'currency',
+      currency,
+      maximumFractionDigits: ['JPY', 'KRW', 'VND', 'CLP'].includes(currency) ? 0 : 2
+    }).format(amount);
+  } catch (_) {
+    return currency + ' ' + amount.toFixed(2);
+  }
+}
+
+function renderPlanPrices() {
+  document.querySelectorAll('.price-value').forEach((el) => {
+    const index = Number(el.dataset.index);
+    const amount = currentCountryCode === 'IN'
+      ? planPricesINR[currentPlanType][index]
+      : planPricesUSD[currentPlanType][index] * currentExchangeRate;
+    el.textContent = formatPlanPrice(amount, currentCurrency);
+  });
+}
+
+async function detectVisitorCurrency() {
+  try {
+    const geoResponse = await fetch('https://ipapi.co/json/', { headers: { Accept: 'application/json' } });
+    if (!geoResponse.ok) throw new Error('Country lookup failed');
+    const geo = await geoResponse.json();
+    const countryCode = String(geo.country_code || '').toUpperCase();
+    const currency = String(geo.currency || '').toUpperCase();
+    if (!countryCode || !currency || !/^[A-Z]{3}$/.test(currency)) throw new Error('Currency unavailable');
+    currentCountryCode = countryCode;
+    if (countryCode === 'IN') {
+      currentCurrency = 'INR';
+      currentExchangeRate = 1;
+      renderPlanPrices();
+      return;
+    }
+    currentCurrency = currency;
+    const rateResponse = await fetch('https://open.er-api.com/v6/latest/USD', { headers: { Accept: 'application/json' } });
+    if (!rateResponse.ok) throw new Error('Exchange-rate lookup failed');
+    const rates = await rateResponse.json();
+    const rate = Number(rates && rates.rates && rates.rates[currency]);
+    if (!Number.isFinite(rate) || rate <= 0) throw new Error('Exchange rate unavailable');
+    currentExchangeRate = rate;
+    renderPlanPrices();
+  } catch (error) {
+    console.warn('AGYASHtv currency detection failed; showing USD prices for visitors outside India.', error);
+    currentCountryCode = 'OTHER';
+    currentCurrency = 'USD';
+    currentExchangeRate = 1;
+    renderPlanPrices();
+  }
+}
+
 function setPlanType(type) {
   currentPlanType = type === 'adult' ? 'adult' : 'regular';
-  document.querySelectorAll('.price-value').forEach(el => {
-    const value = el.dataset[currentPlanType];
-    if (value) el.textContent = Number(value).toLocaleString('en-IN');
-  });
+  renderPlanPrices();
   const regularTab = document.getElementById('regularTab');
   const adultTab = document.getElementById('adultTab');
   regularTab.classList.toggle('active', currentPlanType === 'regular');
@@ -629,9 +693,15 @@ function setPlanType(type) {
   const note = document.getElementById('planTypeNote');
   if (note) note.textContent = currentPlanType === 'adult' ? 'Regular entertainment + adult channels (18+ only)' : 'Regular entertainment subscription';
 }
-function handlePlanPurchase(plan, price) {
+
+function handlePlanPurchase(plan, inrPrice) {
+  const index = planNames.indexOf(plan);
   const typeLabel = currentPlanType === 'adult' ? 'Regular + Adult (18+)' : 'Regular';
-  const msg = `Hi AGYASH TV, I want to subscribe to the ${plan} ${typeLabel} plan (₹${price}).`;
+  const amount = currentCountryCode === 'IN'
+    ? (planPricesINR[currentPlanType][index] ?? inrPrice)
+    : planPricesUSD[currentPlanType][index] * currentExchangeRate;
+  const formattedPrice = formatPlanPrice(amount, currentCurrency);
+  const msg = `Hi AGYASH TV, I want to subscribe to the ${plan} ${typeLabel} plan (${formattedPrice}).`;
   window.open(`https://wa.me/919507670255?text=${encodeURIComponent(msg)}`, '_blank');
 }
 function scrollToPlans() { document.getElementById('plans').scrollIntoView({ behavior: 'smooth' }); }
@@ -649,7 +719,7 @@ function appendMsg(text,type){const box=document.getElementById('chatMessages');
 function sendChat(){const i=document.getElementById('chatInput');if(!i)return;const msg=i.value.trim();if(!msg)return;i.value='';appendMsg(msg,'user');setTimeout(()=>appendMsg(getBotReply(msg),'bot'),500);}
 function quickReply(text){const q=document.getElementById('quickBtns');if(q)q.style.display='none';appendMsg(text,'user');setTimeout(()=>appendMsg(getBotReply(text),'bot'),500);}
 
-document.addEventListener('DOMContentLoaded',()=>{loadTrending();initializeGoogleAuth().catch(()=>{});});
+document.addEventListener('DOMContentLoaded',()=>{loadTrending();initializeGoogleAuth().catch(()=>{});renderPlanPrices();detectVisitorCurrency();});
 </script>
 
 <div class="media-modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="closeModal(event)">
