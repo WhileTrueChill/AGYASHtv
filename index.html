@@ -720,11 +720,11 @@ function getVisitorPlanSummary() {
       ? planPricesINR[type][index]
       : planPricesUSD[type][index] * currentExchangeRate;
     return `• ${name} – ${formatPlanPrice(amount, currentCurrency)}`;
-  }).join('\\n');
+  }).join('\n');
   const localCurrencyNote = currentCountryCode === 'IN'
     ? 'Prices for India are in INR.'
     : `Prices are converted from USD to ${currentCurrency} for your location.`;
-  return `📋 Regular plans:\\n${formatPlans('regular')}\\n\\nRegular + Adult (18+) plans:\\n${formatPlans('adult')}\\n\\n${localCurrencyNote}\\n\\nScroll to Plans to choose your subscription!`;
+  return `📋 Regular plans:\n${formatPlans('regular')}\n\nRegular + Adult (18+) plans:\n${formatPlans('adult')}\n\n${localCurrencyNote}\n\nScroll to Plans to choose your subscription!`;
 }
 function getBotReply(msg){
   const m=msg.toLowerCase();
